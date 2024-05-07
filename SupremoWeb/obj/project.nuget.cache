@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5m6ONhqFMDTo8iTDRA79kJM6p6w5OE/sHJC1KtbxnxJ2KyxRxNAiXC25TYJRdvmY5RUSbd7EwoH+HpVPxv4YUA==",
+  "success": true,
+  "projectFilePath": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\marti\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
