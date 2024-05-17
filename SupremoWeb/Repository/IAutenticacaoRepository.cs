@@ -1,13 +1,14 @@
 ﻿using SupremoWeb.Models;
 using System.Text;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Components.Authorization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SupremoWeb.Repository
 {
     public interface IAutenticacaoRepository
     {
         public Task<RetornoAutenticacaoModel> AutenticacaoLogin(LoginModel loginModel);
+        public Task<string> ObtemToken(LoginModel loginModel);
     }
 
     public class AutenticacaoRepository : IAutenticacaoRepository
@@ -24,6 +25,35 @@ namespace SupremoWeb.Repository
         {
             RetornoAutenticacaoModel retornoAutenticacao = new RetornoAutenticacaoModel();
 
+            string token = await ObtemToken(loginModel);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                if (token != ".")
+                {
+                    retornoAutenticacao.IsSuccess = true;
+                    retornoAutenticacao.token = token;
+                    retornoAutenticacao.Message = "Bem Vindo ao Sistema SupermoWEB";
+                }
+                else
+                {
+                    retornoAutenticacao.IsSuccess = false;
+                    retornoAutenticacao.Message = "Usuário ou senha inválido !!!";
+                }
+
+            }
+            else
+            {
+                retornoAutenticacao.IsSuccess = false;
+                retornoAutenticacao.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
+            }
+
+            return retornoAutenticacao;
+
+        }
+
+        public async Task<string> ObtemToken(LoginModel loginModel)
+        {
             try
             {
                 var httpClient = new HttpClient();
@@ -39,29 +69,21 @@ namespace SupremoWeb.Repository
 
                 if (data.Data is not null)
                 {
-                    string token = data.Data.SignIn.AccessCode.ToString();
-
-                    retornoAutenticacao.IsSuccess = true;
-                    retornoAutenticacao.token = data.Data.SignIn.AccessCode.ToString();
-                    retornoAutenticacao.Message = "Bem Vindo ao Sistema SupermoWEB";
+                    return data.Data.SignIn.AccessCode.ToString();
                 }
                 else
                 {
-                    retornoAutenticacao.IsSuccess = false;
-                    retornoAutenticacao.Message = "Usuário ou senha inválido !!!";
+                    return ".";
                 }
-
-                return retornoAutenticacao;
             }
             catch (Exception ex)
             {
-                await _loggerRepository.WriteLog("AutenticacaoRepository", "AutenticacaoLogin", ex.Message);
-                retornoAutenticacao.IsSuccess = false;
-                retornoAutenticacao.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
-
-                return retornoAutenticacao;
+                await _loggerRepository.WriteLog("AutenticacaoRepository", "ObtemToken", ex.Message);
+                return string.Empty;
             }
+
         }
+
     }
 
     //public class SignIn

@@ -1,7 +1,4 @@
-﻿<script src="/lib/jquery//dist/jquery.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
-@model LoginModel
+﻿@model LoginModel
 
 @using Microsoft.AspNetCore.Http;
 
@@ -9,6 +6,8 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+
+<partial name="_Notification" />
 
 <div class="fundo-color">
 
