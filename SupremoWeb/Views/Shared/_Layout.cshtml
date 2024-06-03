@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+
+    <title>@ViewData["Title"] - SupremoWeb</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SupremoWeb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <title>Sidebar template</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="~/css/bar.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <a href="#">pro sidebar</a>
+                    <div id="close-sidebar">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="sidebar-header">
+                    <div class="user-pic">
+                        <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                             alt="User picture">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">
+                            Jhon
+                            <strong>Smith</strong>
+                        </span>
+                        <span class="user-role">Administrator</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>Online</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- sidebar-header  -->
+                <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- sidebar-search  -->
+                <div class="sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#"><i class="fa fa-tachometer-alt"></i><span>Arquivos</span><span class="badge badge-pill badge-warning">New</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="Clientes">Clientes</a></li>
+                                    <li><a href="#">Manutenção de Clientes</a></li>
+                                    <li><a href="#">Empresa</a></li>
+                                    <li><a href="#">Vendedores</a></li>
+                                    <li><a href="#">Fornecedores</a></li>
+                                    <li><a href="#">Transportadoras</a></li>
+                                    <li><a href="#">Ramos de Atividades</a></li>
+                                    <li><a href="#">Categorias</a></li>
+                                    <li><a href="#">Rotas</a></li>
+                                    <li><a href="#">Imobilizado</a></li>
+
+                                    <li><a href="#">Colaboradores</a></li>
+                                    <li><a href="#">Lista de presentes</a></li>
+                                    <li><a href="#">Segurados</a></li>
+                                    <li><a href="#">Setores comerciais</a></li>
+                                    <li><a href="#">Fretes</a></li>
+                                    <li><a href="#">Fretes por entregas</a></li>
+                                    <li><a href="#">Fretes por cidade</a></li>
+                                    <li><a href="#">Unidades</a></li>
+                                    <li><a href="#">Ambientes</a></li>
+                                    <li><a href="#">Avaliação</a></li>
+                                    <li><a href="#">Manutenção de CEPs</a></li>
+
+                                    <li><a href="#">Prazos</a></li>
+                                    <li><a href="#">Cotações de moedas</a></li>
+                                    <li><a href="#">Financiamentos</a></li>
+
+                                    <li><a href="#">Sair</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#"><i class="fa fa-tachometer-alt"></i><span>Estoque</span><span class="badge badge-pill badge-warning">New</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="Clientes">Produtos</a></li>
+                                    <li><a href="#">Kit de produtos</a></li>
+                                    <li><a href="#">Marcas</a></li>
+                                    <li><a href="#">Grupos</a></li>
+                                    <li><a href="#">SubGrupos</a></li>
+                                    <li><a href="#">Lotes</a></li>
+
+                                    <li><a href="#">Consulta de preços</a></li>
+                                    <li><a href="#">Alteração de preços</a></li>
+                                    <li><a href="#">Alteração de preços avançados</a></li>
+                                    <li><a href="#">Agendamento de alteração de preços</a></li>
+                                    <li><a href="#">Cadastro de promoções</a></li>
+                                    <li><a href="#">Tabela de descontos</a></li>
+
+                                    <li><a href="#">Grupo de tabela de preços</a></li>
+                                    <li><a href="#">Política de vendas</a></li>
+
+                                    <li><a href="#">Manutenção de produtos</a></li>
+                                    <li><a href="#">Gestão de lote</a></li>
+                                    <li><a href="#">Balanço</a></li>
+                                    <li><a href="#">Giro</a></li>
+                                    <li><a href="#">Curva ABC</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#"><i class="fa fa-tachometer-alt"></i><span>Movimentos</span><span class="badge badge-pill badge-warning">New</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="Clientes">Pedidos</a></li>
+                                    <li><a href="#">Venda rápida</a></li>
+                                    <li><a href="#">Agrupamento de pedidos</a></li>
+                                    <li><a href="#">Acumudado de pedidos</a></li>
+                                    <li><a href="#">Impostos de pedidos</a></li>
+
+                                    <li><a href="#">Orçamentos</a></li>
+                                    <li><a href="#">Agrupamento de orçamentos</a></li>
+
+                                    <li><a href="#">Condicionais</a></li>
+                                    <li><a href="#">Finalizar condicionais</a></li>
+                                    <li><a href="#">Devoluções</a></li>
+                                    <li><a href="#">Garantias</a></li>
+                                    <li><a href="#">Gerar Garantias</a></li>
+                                    <li><a href="#">Transfências/Acertos</a></li>
+
+                                    <li><a href="#">Entradas</a></li>
+                                    <li><a href="#">Finalizar condicionais entrada</a></li>
+                                    <li><a href="#">Gerar devolução de entradas</a></li>
+                                    <li><a href="#">Pedidos de compras</a></li>
+                                    <li><a href="#">Gerar pedido de compra</a></li>
+                                    <li><a href="#">Distribuir produtos</a></li>
+
+                                    <li><a href="#">Romaneio de entregas</a></li>
+                                    <li><a href="#">Meta de vendas</a></li>
+                                    <li><a href="#">Devolução de pedidos agrupados</a></li>
+                                    <li><a href="#">Despesa de viagem</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-chart-line"></i>
+                                <span>Charts</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">Pie chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Line chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Bar chart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Histogram</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-globe"></i>
+                                <span>Maps</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">Google maps</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Open street map</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="header-menu">
+                            <span>Extra</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-book"></i>
+                                <span>Documentation</span>
+                                <span class="badge badge-pill badge-primary">Beta</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-calendar"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-folder"></i>
+                                <span>Examples</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-content  -->
+            <div class="sidebar-footer">
+                <a href="#">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-warning notification">3</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-envelope"></i>
+                    <span class="badge badge-pill badge-success notification">7</span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-cog"></i>
+                    <span class="badge-sonar"></span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </div>
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content">
+            <div class="container-fluid">
+                @RenderBody()
+
+                <footer class="text-center">
+                    <div class="mb-2">
+                        <small>
+                            © 2020 made with <i class="fa fa-heart" style="color:red"></i> by - <a target="_blank" rel="noopener noreferrer" href="https://azouaoui.netlify.com">
+                                Mohamed Azouaoui
+                            </a>
+                        </small>
+                    </div>
+                    <div>
+                        <a href="https://github.com/azouaoui-med" target="_blank">
+                            <img alt="GitHub followers" src="https://img.shields.io/github/followers/azouaoui-med?label=github&style=social" />
+                        </a>
+                        <a href="https://twitter.com/azouaoui_med" target="_blank">
+                            <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/azouaoui_med?label=twitter&style=social" />
+                        </a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+        <!-- page-content" -->
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            $(".sidebar-dropdown > a").click(function () {
+                $(".sidebar-submenu").slideUp(200);
+                if (
+                    $(this)
+                        .parent()
+                        .hasClass("active")
+                ) {
+                    $(".sidebar-dropdown").removeClass("active");
+                    $(this)
+                        .parent()
+                        .removeClass("active");
+                } else {
+                    $(".sidebar-dropdown").removeClass("active");
+                    $(this)
+                        .next(".sidebar-submenu")
+                        .slideDown(200);
+                    $(this)
+                        .parent()
+                        .addClass("active");
+                }
+            });
+
+            $("#close-sidebar").click(function () {
+                $(".page-wrapper").removeClass("toggled");
+            });
+            $("#show-sidebar").click(function () {
+                $(".page-wrapper").addClass("toggled");
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
