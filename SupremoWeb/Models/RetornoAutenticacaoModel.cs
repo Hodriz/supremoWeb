@@ -1,7 +1,11 @@
 ﻿namespace SupremoWeb.Models
 {
-    public class RetornoAutenticacaoModel:MensagemModel
+    public static class RetornoAutenticacaoModel
     {
-        public string token { get; set; }
+        public static bool IsSuccess { get; set; }
+        public static string? Message { get; set; }
+        public static string? MessageHeading { get; set; }
+
+        public static string token { get; set; }
     }
 }

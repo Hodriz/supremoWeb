@@ -1,13 +1,15 @@
-﻿@model LoginModel
+﻿@* LOGIN *@
+
+@model LoginModel
 
 @using Microsoft.AspNetCore.Http;
+
+<partial name="_Notification" />
 
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-
-<partial name="_Notification" />
 
 <div class="fundo-color">
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj": {}
+    "C:\\Users\\marti\\Downloads\\@AUXILIAR\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj": {}
   },
   "projects": {
-    "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj": {
+    "C:\\Users\\marti\\Downloads\\@AUXILIAR\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj",
+        "projectUniqueName": "C:\\Users\\marti\\Downloads\\@AUXILIAR\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj",
         "projectName": "SupremoWeb",
-        "projectPath": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj",
+        "projectPath": "C:\\Users\\marti\\Downloads\\@AUXILIAR\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\SupremoWeb.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\obj\\",
+        "outputPath": "C:\\Users\\marti\\Downloads\\@AUXILIAR\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
