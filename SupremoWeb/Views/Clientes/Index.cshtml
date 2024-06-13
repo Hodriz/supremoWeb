@@ -25,19 +25,12 @@
         });
     </script>
 
-    <script src="~/js/vue-the-mask.js"></script>
-    @* <script src="~/js/vee-validate.js"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
     <script>
         Vue.use(VueTheMask);
-        // Vue.use(VeeValidate, {
-        //     classes: true,
-        //     classNames: {
-        //         valid:'is-valid',
-        //         invalid:'is-invalid'
-        //     }
-        // });
         new Vue({
-            el: '#formCliente'
+            el: '#formIncluirCliente'
         });
     </script>
 }
@@ -45,6 +38,24 @@
 @{
     IEnumerable<NodeModel> clientes = ViewBag.Clientes;
 }
+
+<style>
+    #botaoredondoincluir {
+        color: grey;
+        background: white;
+        font-size: 70px;
+        font-family: serif;
+        position: absolute;
+        top: 70px;
+        right: 30px;
+    }
+</style>
+
+<div id="botaoredondoincluir">
+    <a href="@Url.Action("IncluirCliente", "Clientes")" class="btn btn-outline-primary btn-sm" style="border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;">
+        <i class="fas fa-plus" style="color: blue;"></i>
+    </a>
+</div>
 
 <div class="row">
     <div class="col-md-6 mb-2">
@@ -68,16 +79,10 @@
             <div style="margin-left: 5px;">
                 <a href="/home" class="btn btn-outline-danger btn-sm">Fechar</a>
             </div>
-
-            <!-- Botão Incluir Novo Cliente -->
-            <div style="margin-left: 5px;">
-                <a href="@Url.Action("Incluir", "Clientes")" class="btn btn-outline-success btn-sm mx-2">Incluir</a>
-            </div>
         </div>
     </div>
 </div>
 
-@* v-mask="'####-###'" *@
 <div class="collapse mt-2" id="collapseExample">
 
     <div class="card">
@@ -139,7 +144,7 @@
         <div class="card-header">Filtrado por</div>
         <div class="card-body">
 
-            <form class="row g-3">
+            <form class="row g-3" id="formIncluirCliente">
                 <div class="col-md-1">
                     <label for="inputEmail4" class="form-label">Empresa</label>
                     <input type="text" class="form-control form-control-sm" id="inputEmail4">
@@ -156,7 +161,6 @@
                     <label for="inputPassword4" class="form-label">Fantasia</label>
                     <input type="text" class="form-control form-control-sm" id="inputPassword4">
                 </div>
-
 
                 <div class="col-md-1">
                     <label for="inputEmail4" class="form-label">Endereço</label>
@@ -195,7 +199,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="inputPassword4" class="form-label">Telefone</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                    <input type="text" class="form-control form-control-sm" id="inputPassword4" v-mask="'########'">
                 </div>
 
                 <div class="col-md-3">

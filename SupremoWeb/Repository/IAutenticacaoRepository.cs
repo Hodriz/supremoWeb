@@ -30,14 +30,14 @@ namespace SupremoWeb.Repository
                 {
                     RetornoAutenticacaoModel.IsSuccess = true;
                     RetornoAutenticacaoModel.token = token;
-                    RetornoAutenticacaoModel.Message = "Bem Vindo ao Sistema SupermoWEB";
-                    RetornoAutenticacaoModel.MessageHeading = "ok";
+                    RetornoAutenticacaoModel.Message = $"Bem Vindo {loginModel.login} ao Sistema SupremoWEB";
+                    RetornoAutenticacaoModel.MessageHeading = "OK";
                 }
                 else
                 {
                     RetornoAutenticacaoModel.IsSuccess = false;
                     RetornoAutenticacaoModel.Message = "Usuário ou senha inválido !!!";
-                    RetornoAutenticacaoModel.MessageHeading = "aviso";
+                    RetornoAutenticacaoModel.MessageHeading = "AVISO";
                 }
 
             }
@@ -45,7 +45,7 @@ namespace SupremoWeb.Repository
             {
                 RetornoAutenticacaoModel.IsSuccess = false;
                 RetornoAutenticacaoModel.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
-                RetornoAutenticacaoModel.MessageHeading = "falha";
+                RetornoAutenticacaoModel.MessageHeading = "FALHA";
             }
 
         }

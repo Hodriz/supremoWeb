@@ -1,0 +1,131 @@
+﻿@model ClienteModel
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="shadow-lg mb-0 pt-2 pb-2 bg-white rounded col-md-12">
+            <div class="card">
+                <div class="card-header">Incluir Cliente</div>
+                <div class="card-body">
+                    <form class="row g-3" asp-controller="Clientes" asp-action="IncluirCliente" id="formIncluirCliente" method="post">
+
+                        <div class="col-md-6">
+                            <label for="companyName" class="form-label">Razão</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="CompanyName" required>
+                            <div class="invalid-feedback">
+                                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tradingName" class="form-label">Fantasia</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="TradingName" required>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="street" class="form-label">Endereço</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Street" required>
+                        </div>
+                        <div class="col-2">
+                            <label for="houseNumber" class="form-label">Número</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="HouseNumber" required>
+                        </div>
+                        <div class="col-4">
+                            <label for="complement" class="form-label">Complemento</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Complement">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="postalCode" class="form-label">CEP</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="PostalCode" onblur="buscarEnderecoPorCEP()">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="city" class="form-label">Cidade</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="City" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="neighborhood" class="form-label">Bairro</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Neighborhood" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="state" class="form-label">UF</label>
+                            <select asp-for="State" class="form-select form-select-sm">
+                                <option value="">Escolha...</option>
+                                @foreach (var estado in ViewBag.EstadosBrasileiros as List<SelectListItem>)
+                                {
+                                    <option value="@estado.Value">@estado.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="taxPayerNumber" class="form-label">CPF</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="TaxPayerNumber" required>
+                        </div>
+                        <div class="col-4">
+                            <label for="identificationCard" class="form-label">RG</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="IdentificationCard" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Telefone</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Phone">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cellphone" class="form-label">Celular</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Cellphone">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-sm" asp-for="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="website" class="form-label">Site</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="Website">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-outline-success">Gravar</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-outline-danger w-100" onclick="window.location.href='@Url.Action("Index", "Home")'">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function buscarEnderecoPorCEP() {
+        const cep = document.getElementById("PostalCode").value;
+
+        try {
+            const response = await fetch(`/Clientes/BuscarEnderecoPorCEP?cep=${cep}`);
+            if (response.ok) {
+                const endereco = await response.json();
+
+                if (endereco) {
+                    document.getElementById("Street").value = endereco.street;
+                    document.getElementById("City").value = endereco.city;
+                    document.getElementById("Neighborhood").value = endereco.neighborhood;
+
+                    const stateSelect = document.getElementById("State");
+                    stateSelect.value = endereco.state;
+                } else {
+                    document.getElementById("Street").value = "Endereco não encontrado !!!";
+                    document.getElementById("City").value = "";
+                    document.getElementById("State").value = "";
+                    document.getElementById("Neighborhood").value = "";
+                }
+            } else {
+                document.getElementById("Street").value = "Erro ao buscar endereço por CEP !!!";
+                document.getElementById("City").value = "";
+                document.getElementById("State").value = "";
+                document.getElementById("Neighborhood").value = "";
+            }
+        } catch (error) {
+            document.getElementById("Street").value = "Erro ao buscar endereço por CEP !!!";
+            document.getElementById("City").value = "";
+            document.getElementById("State").value = "";
+            document.getElementById("Neighborhood").value = "";
+        }
+    }
+</script>

@@ -25,7 +25,11 @@
     <link href="~/css/menusidebar.css" rel="stylesheet" />
 
     <!--Validação-->
-    <script src="~/js/vue-the-mask.js"></script>
+    <script src="~/js/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
+
+    <!--Toastr CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 <body>
 
@@ -46,8 +50,9 @@
                             <a><i class="fa fa-tachometer-alt"></i><span>Arquivos</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="Clientes">Clientes</a></li>
-                                    <li><a href="#">Manutenção de Clientes</a></li>
+                                    <li><a href="Clientes">Cliente</a></li>
+                                    <li><a href="@Url.Action("/incluir")">Incluir Cliente</a></li>
+
                                     <li><a href="#">Empresa</a></li>
                                     <li><a href="#">Vendedores</a></li>
                                     <li><a href="#">Fornecedores</a></li>
@@ -173,6 +178,36 @@
     <!--Menu Sidebar-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
+    <!--Toastr JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!--Toastr Logic-->
+    <script>
+        $(document).ready(function () {
+        @if (TempData["MessageHeading"] != null && TempData["Message"] != null)
+        {
+            <text>
+                var messageHeading = '@TempData["MessageHeading"]';
+                var messageBody = '@TempData["Message"]';
+                switch (messageHeading) {
+                    case "OK":
+                        toastr.success(messageBody);
+                        break;
+                    case "AVISO":
+                        toastr.warning(messageBody);
+                        break;
+                    case "FALHA":
+                        toastr.error(messageBody);
+                        break;
+                    default:
+                        toastr.info(messageBody);
+                        break;
+                }
+            </text>
+        }
+        });
+    </script>
+
     <!--css-->
     <script src="~/js/site.js" asp-append-version="true"></script>
     @*     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script> *@
@@ -212,9 +247,6 @@
             });
         });
     </script>
-
-    <!--Validação-->
-    <script src="~/js/vue.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

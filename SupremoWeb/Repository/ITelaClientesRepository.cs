@@ -6,8 +6,8 @@ namespace SupremoWeb.Repository
 {
     public interface ITelaClientesRepository
     {
-        Task<IEnumerable<NodeModel>> ListaAllClientes();
-        Task<bool> AddCliente(ClienteModel cliente);
+        Task<IEnumerable<NodeModel>> ListAllClientes();
+        Task<MensagemModel> AddCliente(ClienteModel cliente);
     }
 
     public class TelaClientesRepository : ITelaClientesRepository
@@ -20,7 +20,7 @@ namespace SupremoWeb.Repository
             _loggerRepository = loggerRepository;
         }
 
-        public async Task<IEnumerable<NodeModel>> ListaAllClientes()
+        public async Task<IEnumerable<NodeModel>> ListAllClientes()
         {
             try
             {
@@ -49,33 +49,72 @@ namespace SupremoWeb.Repository
             }
         }
 
-        public async Task<bool> AddCliente(ClienteModel cliente)
+        public async Task<MensagemModel> AddCliente(ClienteModel cliente)
         {
             try
             {
+                cliente.lobId = 0;
+
                 string token = RetornoAutenticacaoModel.token;
 
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://supremo-api.jelastic.saveincloud.net/api");
                 request.Headers.Add("Authorization", "Bearer " + token);
-                var content = new StringContent(
-                    "{\"query\":\"mutation ($cliente: ClienteInput!) { addCliente(cliente: $cliente) }\",\"variables\":{\"cliente\":" + JsonConvert.SerializeObject(cliente) + "}}",
-                    Encoding.UTF8,
-                    "application/json"
-                );
+
+                var mutation = @"
+                        mutation AddCustomer($customer: AddCustomerInput!) {
+                        addCustomer(customer: $customer) {
+                        companyName
+                        tradingName
+                        taxPayerNumber
+                        identificationCard
+                        phone
+                        cellphone
+                        email
+                        street
+                        houseNumber
+                        complement
+                        neighborhood
+                        city
+                        state
+                        postalCode
+                        website
+                        lobId
+                    }
+                }";
+
+                var variables = new { customer = cliente };
+                var requestBody = new
+                {
+                    query = mutation,
+                    variables = variables
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 request.Content = content;
+
                 var response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
 
                 var responseBody = await response.Content.ReadAsStringAsync();
                 dynamic result = JsonConvert.DeserializeObject(responseBody);
 
-                return result.data.addCliente;
+                // Verifique se há erros na resposta
+                if (result.errors != null)
+                {
+                    foreach (var error in result.errors)
+                    {
+                        await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", error.message.ToString());
+                    }
+                    return new MensagemModel { IsSuccess = false, Message = $"Houve um erro na resposta !!!", MessageHeading = "AVISO" };
+                }
+
+                return new MensagemModel { IsSuccess = true, Message = $"Cliente {cliente.CompanyName} cadastrado com sucesso !!!", MessageHeading = "OK" };
             }
             catch (Exception ex)
             {
-                await _loggerRepository.WriteLog("ClienteRepository", "AddCliente", ex.Message);
-                return false;
+                await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", ex.Message);
+                return new MensagemModel { IsSuccess = false, Message = $"Houve um erro ao cadastrar o cliente !!!", MessageHeading = "FALHA" };
             }
         }
 
