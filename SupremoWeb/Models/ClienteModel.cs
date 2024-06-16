@@ -5,50 +5,48 @@ namespace SupremoWeb.Models
     public class ClienteModel
     {
         //[Required(ErrorMessage = "Campo Obrigatório")]
-        public int lobId { get; set; }  
+        public int lobId { get; set; }
+        public float companyId { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public float CompanyId { get; set; }
+        public string? companyName { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? CompanyName { get; set; }
+        public string? tradingName { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? TradingName { get; set; }
+        public string? street { get; set; }
+
+        public string? complement { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? Street { get; set; }
-
-        public string? Complement { get; set; }
+        public string? state { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? State { get; set; }
+        public string? city { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? City { get; set; }
+        public string? postalCode { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? PostalCode { get; set; }
+        public string? neighborhood { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? Neighborhood { get; set; }
+        public float houseNumber { get; set; } 
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public float HouseNumber { get; set; } 
+        public string? taxPayerNumber { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
-        public string? TaxPayerNumber { get; set; }
+        public string? identificationCard { get; set; }
 
-        public string? IdentificationCard { get; set; }
+        public string? phone { get; set; }
 
-        public string? Phone { get; set; }
-
-        public string? Cellphone { get; set; }
+        public string? cellphone { get; set; }
 
         [EmailAddress(ErrorMessage = "Formato de email inválido")]
-        public string? Email { get; set; }
+        public string? email { get; set; }
 
         //[Url(ErrorMessage = "Formato de URL inválido")]
-        public string? Website { get; set; }
+        public string? website { get; set; }
     }
 }

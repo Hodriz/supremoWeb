@@ -54,6 +54,10 @@ namespace SupremoWeb.Repository
             try
             {
                 cliente.lobId = 0;
+                cliente.companyId = 0;
+                cliente.postalCode = cliente.postalCode.Replace("-", "");
+                cliente.taxPayerNumber = cliente.postalCode.Replace(".", "");
+                cliente.taxPayerNumber = cliente.postalCode.Replace("/", "");
 
                 string token = RetornoAutenticacaoModel.token;
 
@@ -80,6 +84,7 @@ namespace SupremoWeb.Repository
                         postalCode
                         website
                         lobId
+                        companyId
                     }
                 }";
 
@@ -109,7 +114,7 @@ namespace SupremoWeb.Repository
                     return new MensagemModel { IsSuccess = false, Message = $"Houve um erro na resposta !!!", MessageHeading = "AVISO" };
                 }
 
-                return new MensagemModel { IsSuccess = true, Message = $"Cliente {cliente.CompanyName} cadastrado com sucesso !!!", MessageHeading = "OK" };
+                return new MensagemModel { IsSuccess = true, Message = $"Cliente {cliente.companyName} cadastrado com sucesso !!!", MessageHeading = "OK" };
             }
             catch (Exception ex)
             {
