@@ -4,7 +4,8 @@ namespace SupremoWeb.Models
 {
     public class ClienteModel
     {
-        //[Required(ErrorMessage = "Campo Obrigatório")]
+        public int uid { get; set; }
+
         public int lobId { get; set; }
         public float companyId { get; set; }
 

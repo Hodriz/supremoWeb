@@ -123,6 +123,74 @@ namespace SupremoWeb.Repository
             }
         }
 
+        public async Task<MensagemModel> DeleteCliente(int uid)
+        {
+            try
+            {
+                //string token = RetornoAutenticacaoModel.token;
+
+                //var client = new HttpClient();
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://supremo-api.jelastic.saveincloud.net/api");
+                //request.Headers.Add("Authorization", "Bearer " + token);
+
+                //var mutation = @"
+                //        mutation AddCustomer($customer: AddCustomerInput!) {
+                //        addCustomer(customer: $customer) {
+                //        companyName
+                //        tradingName
+                //        taxPayerNumber
+                //        identificationCard
+                //        phone
+                //        cellphone
+                //        email
+                //        street
+                //        houseNumber
+                //        complement
+                //        neighborhood
+                //        city
+                //        state
+                //        postalCode
+                //        website
+                //        lobId
+                //        companyId
+                //    }
+                //}";
+
+                //var variables = new { customer = cliente };
+                //var requestBody = new
+                //{
+                //    query = mutation,
+                //    variables = variables
+                //};
+
+                //var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+                //request.Content = content;
+
+                //var response = await client.SendAsync(request);
+                //response.EnsureSuccessStatusCode();
+
+                //var responseBody = await response.Content.ReadAsStringAsync();
+                //dynamic result = JsonConvert.DeserializeObject(responseBody);
+
+                //// Verifique se há erros na resposta
+                //if (result.errors != null)
+                //{
+                //    foreach (var error in result.errors)
+                //    {
+                //        await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", error.message.ToString());
+                //    }
+                //    return new MensagemModel { IsSuccess = false, Message = $"Houve um erro na resposta !!!", MessageHeading = "AVISO" };
+                //}
+
+                //return new MensagemModel { IsSuccess = true, Message = $"Cliente {cliente.companyName} cadastrado com sucesso !!!", MessageHeading = "OK" };
+                return null;
+            }
+            catch (Exception ex)
+            {
+                await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", ex.Message);
+                return new MensagemModel { IsSuccess = false, Message = $"Houve um erro ao cadastrar o cliente !!!", MessageHeading = "FALHA" };
+            }
+        }
     }
 
 }
