@@ -9,8 +9,10 @@ var provider = builder.Services.BuildServiceProvider();
 var configuration = provider.GetRequiredService<IConfiguration>();
 
 //*Config Injecao de Dependência
-builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<ILoggerRepository, LoggerRepository>();
+builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
+builder.Services.AddScoped<ITelaClientesRepository, TelaClientesRepository>();
 
 var app = builder.Build();
 

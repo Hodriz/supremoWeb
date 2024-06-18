@@ -1,0 +1,180 @@
+﻿@model ClienteModel
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
+    <script>
+        Vue.use(VueTheMask);
+        new Vue({
+            el: '#formIncluirCliente',
+            data: {
+                phone: '',
+                cellphone: '',
+                postalCode: ''
+            }
+        });
+    </script>
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="shadow-lg mb-0 pt-2 pb-2 bg-white rounded col-md-12">
+            <div class="login-card">
+                <div class="card-header">Incluir Cliente</div>
+                <div class="login-form">
+                    <form class="login-form row g-3" asp-controller="Clientes" asp-action="IncluirCliente" id="formIncluirCliente" method="post" novalidate>
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="companyName">Razão</label>
+                            <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="companyName"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="tradingName">Fantasia</label>
+                            <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="tradingName"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="label small" asp-for="street">Endereço</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="street" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="street"></span>
+                        </div>
+                        <div class="col-2">
+                            <label class="label small" asp-for="houseNumber">Número</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="houseNumber" v-mask="'#####'" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="houseNumber"></span>
+                        </div>
+                        <div class="col-4">
+                            <label class="label small" asp-for="complement">Complemento</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="complement">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="label small" asp-for="postalCode">CEP</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="postalCode" v-mask="'#####-###'" onblur="buscarEnderecoPorCEP()">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label small" asp-for="city">Cidade</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="city" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="city"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label small" asp-for="neighborhood">Bairro</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="neighborhood" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="neighborhood"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label small" asp-for="state">UF</label>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="state"></span>
+                            <select asp-for="state" class="form-select form-select-sm">
+                                <option value="">Escolha...</option>
+                                @foreach (var estado in ViewBag.EstadosBrasileiros as List<SelectListItem>)
+                                {
+                                    <option value="@estado.Value">@estado.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="label small" asp-for="taxPayerNumber">CPF</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="taxPayerNumber" required v-mask="'##.###.###/####-##'">
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="taxPayerNumber"></span>
+                        </div>
+                        <div class="col-6">
+                            <label class="label small" asp-for="identificationCard">RG</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="identificationCard" required>
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="identificationCard"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="phone">Telefone</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="phone" v-mask="'(##) ####-####'">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="cellphone">Celular</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="cellphone" v-mask="'(##) #####-####'">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="email">Email</label>
+                            <input type="email" class="form-control form-control-sm" asp-for="email">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label small" asp-for="website">Site</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="website">
+                        </div>
+
+                        <div class="row col-5 mt-2">
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-outline-success">Gravar</button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-outline-danger" onclick="window.location.href='@Url.Action("Index", "Clientes")'">Cancelar</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function buscarEnderecoPorCEP() {
+        const cep = document.getElementById("postalCode").value;
+
+        try {
+            const response = await fetch(`/Clientes/BuscarEnderecoPorCEP?cep=${cep}`);
+            if (response.ok) {
+                const endereco = await response.json();
+
+                if (endereco) {
+                    document.getElementById("street").value = endereco.street;
+                    document.getElementById("city").value = endereco.city;
+                    document.getElementById("neighborhood").value = endereco.neighborhood;
+
+                    const stateSelect = document.getElementById("state");
+                    stateSelect.value = endereco.state;
+                } else {
+                    document.getElementById("street").value = "Endereco não encontrado !!!";
+                    document.getElementById("city").value = "";
+                    document.getElementById("state").value = "";
+                    document.getElementById("neighborhood").value = "";
+                }
+            } else {
+                document.getElementById("street").value = "Erro ao buscar endereço por CEP !!!";
+                document.getElementById("city").value = "";
+                document.getElementById("state").value = "";
+                document.getElementById("neighborhood").value = "";
+            }
+        } catch (error) {
+            document.getElementById("street").value = "Erro ao buscar endereço por CEP !!!";
+            document.getElementById("city").value = "";
+            document.getElementById("state").value = "";
+            document.getElementById("neighborhood").value = "";
+        }
+    }
+</script>
+
+<script>
+    (function () {
+        'use strict';
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.login-form')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

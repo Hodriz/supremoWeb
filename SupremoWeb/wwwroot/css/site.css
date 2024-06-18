@@ -20,3 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Mantém o header da tabela da página de clientes fixo*/
+.table-floating-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* Adicione a cor de fundo desejada */
+    z-index: 1;
+}
+

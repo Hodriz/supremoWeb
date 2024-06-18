@@ -1,14 +1,13 @@
 ﻿using SupremoWeb.Models;
 using System.Text;
 using Newtonsoft.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SupremoWeb.Repository
 {
     public interface IAutenticacaoRepository
     {
-        public Task<RetornoAutenticacaoModel> AutenticacaoLogin(LoginModel loginModel);
-        public Task<string> ObtemToken(LoginModel loginModel);
+        Task AutenticacaoLogin(LoginModel loginModel);
+        Task<string> ObtemToken(LoginModel loginModel);
     }
 
     public class AutenticacaoRepository : IAutenticacaoRepository
@@ -21,36 +20,69 @@ namespace SupremoWeb.Repository
             _loggerRepository = loggerRepository;
         }
 
-        public async Task<RetornoAutenticacaoModel> AutenticacaoLogin(LoginModel loginModel)
+        public async Task AutenticacaoLogin(LoginModel loginModel)
         {
-            RetornoAutenticacaoModel retornoAutenticacao = new RetornoAutenticacaoModel();
-
             string token = await ObtemToken(loginModel);
 
             if (!string.IsNullOrEmpty(token))
             {
                 if (token != ".")
                 {
-                    retornoAutenticacao.IsSuccess = true;
-                    retornoAutenticacao.token = token;
-                    retornoAutenticacao.Message = "Bem Vindo ao Sistema SupermoWEB";
+                    RetornoAutenticacaoModel.IsSuccess = true;
+                    RetornoAutenticacaoModel.token = token;
+                    RetornoAutenticacaoModel.Message = $"Bem Vindo {loginModel.login} ao Sistema SupremoWEB";
+                    RetornoAutenticacaoModel.MessageHeading = "OK";
                 }
                 else
                 {
-                    retornoAutenticacao.IsSuccess = false;
-                    retornoAutenticacao.Message = "Usuário ou senha inválido !!!";
+                    RetornoAutenticacaoModel.IsSuccess = false;
+                    RetornoAutenticacaoModel.Message = "Usuário ou senha inválido !!!";
+                    RetornoAutenticacaoModel.MessageHeading = "AVISO";
                 }
 
             }
             else
             {
-                retornoAutenticacao.IsSuccess = false;
-                retornoAutenticacao.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
+                RetornoAutenticacaoModel.IsSuccess = false;
+                RetornoAutenticacaoModel.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
+                RetornoAutenticacaoModel.MessageHeading = "FALHA";
             }
 
-            return retornoAutenticacao;
-
         }
+
+        //public async Task<RetornoAutenticacaoModel> AutenticacaoLogin(LoginModel loginModel)
+        //{
+        //    RetornoAutenticacaoModel retornoAutenticacao = new RetornoAutenticacaoModel();
+
+        //    string token = await ObtemToken(loginModel);
+
+        //    if (!string.IsNullOrEmpty(token))
+        //    {
+        //        if (token != ".")
+        //        {
+        //            retornoAutenticacao.IsSuccess = true;
+        //            retornoAutenticacao.token = token;
+        //            retornoAutenticacao.Message = "Bem Vindo ao Sistema SupermoWEB";
+        //            retornoAutenticacao.MessageHeading = "ok";
+        //        }
+        //        else
+        //        {
+        //            retornoAutenticacao.IsSuccess = false;
+        //            retornoAutenticacao.Message = "Usuário ou senha inválido !!!";
+        //            retornoAutenticacao.MessageHeading = "aviso";
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        retornoAutenticacao.IsSuccess = false;
+        //        retornoAutenticacao.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
+        //        retornoAutenticacao.MessageHeading = "falha";
+        //    }
+
+        //    return retornoAutenticacao;
+
+        //}
 
         public async Task<string> ObtemToken(LoginModel loginModel)
         {

@@ -20,10 +20,12 @@ namespace SupremoWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Autenticacao(LoginModel loginModel)
         {
-            RetornoAutenticacaoModel retornoAutenticacaoModel = await _autenticacao.AutenticacaoLogin(loginModel);
-            TempData["Message"] = retornoAutenticacaoModel.Message;
+            await _autenticacao.AutenticacaoLogin(loginModel);
 
-            if(retornoAutenticacaoModel.IsSuccess )
+            TempData["message"] = RetornoAutenticacaoModel.Message;
+            TempData["MessageHeading"] = RetornoAutenticacaoModel.MessageHeading;
+
+            if (RetornoAutenticacaoModel.IsSuccess )
             {
                 return RedirectToAction("Index", "Home");
             }

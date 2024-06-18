@@ -5,8 +5,16 @@
       "PackagePath": "staticwebassets\\SupremoWeb.bundle.scp.css"
     },
     {
-      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\css\\bar.css",
-      "PackagePath": "staticwebassets\\css\\bar.css"
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\css\\all.min.css",
+      "PackagePath": "staticwebassets\\css\\all.min.css"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\css\\fontawesome.min.css",
+      "PackagePath": "staticwebassets\\css\\fontawesome.min.css"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\css\\menuSidebar.css",
+      "PackagePath": "staticwebassets\\css\\menuSidebar.css"
     },
     {
       "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\css\\site.css",
@@ -21,12 +29,36 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\img\\fundo.jpg",
+      "PackagePath": "staticwebassets\\img\\fundo.jpg"
+    },
+    {
       "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\img\\icone-conta.png",
       "PackagePath": "staticwebassets\\img\\icone-conta.png"
     },
     {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\Vee-Validate.js",
+      "PackagePath": "staticwebassets\\js\\Vee-Validate.js"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\all.min.js",
+      "PackagePath": "staticwebassets\\js\\all.min.js"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\fontawesome.min.js",
+      "PackagePath": "staticwebassets\\js\\fontawesome.min.js"
+    },
+    {
       "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\vue-the-mask.js",
+      "PackagePath": "staticwebassets\\js\\vue-the-mask.js"
+    },
+    {
+      "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\js\\vue.min.js",
+      "PackagePath": "staticwebassets\\js\\vue.min.js"
     },
     {
       "Id": "D:\\@Projetos\\Fork-SupremoWeb\\SupremoWeb\\wwwroot\\lib\\bootstrap\\LICENSE",
