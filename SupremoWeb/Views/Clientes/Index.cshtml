@@ -1,6 +1,7 @@
 ﻿<h1>Clientes</h1>
 
 @section Scripts {
+    @* Paginação *@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
 
@@ -19,12 +20,13 @@
                     "search": "Pesquisar:"
                 },
                 "searching": false,                                 // Desabilita a função de pesquisa
-                "lengthMenu": [[5, 10, 20, 50], [5, 10, 20, 50]],   // Define as opções de número de registros por página
-                "pageLength": 10                                    // Define o número padrão de registros por página
+                "lengthMenu": [[8, 10, 20, 50], [8, 10, 20, 50]],   // Define as opções de número de registros por página
+                "pageLength": 8                                    // Define o número padrão de registros por página
             });
         });
     </script>
 
+    @* Validação de campos *@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
     <script>
@@ -39,6 +41,7 @@
     IEnumerable<NodeModel> clientes = ViewBag.Clientes;
 }
 
+@* Botao incluir Cliente *@
 <style>
     #botaoredondoincluir {
         color: grey;
@@ -51,15 +54,41 @@
     }
 </style>
 
+@* Botao incluir Cliente *@
 <div id="botaoredondoincluir">
     <a href="@Url.Action("IncluirCliente", "Clientes")" class="btn btn-outline-primary btn-sm" style="border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;">
         <i class="fas fa-plus" style="color: blue;"></i>
     </a>
 </div>
 
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body">Você tem certeza que deseja excluir o cliente <strong id="clientName"></strong>?</div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post">
+                    <input type="hidden" name="id" id="clientId">
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-6 mb-2">
         <div class="d-flex justify-content-start">
+
             <!-- Botão de Pesquisa -->
             <form class="d-flex me-2">
                 <div style="width: 200px; margin-right: 5px;">
@@ -146,25 +175,25 @@
 
             <form class="row g-3" id="formIncluirCliente">
                 <div class="col-md-1">
-                    <label for="inputEmail4" class="form-label">Empresa</label>
-                    <input type="text" class="form-control form-control-sm" id="inputEmail4">
+                    <label for="Empresa" class="form-label">Empresa</label>
+                    <input type="text" class="form-control form-control-sm" id="Empresa">
                 </div>
                 <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Cliente</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                    <label for="Cliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control form-control-sm" id="Cliente">
                 </div>
                 <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Razão</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                    <label for="Razao" class="form-label">Razão</label>
+                    <input type="text" class="form-control form-control-sm" id="Razao">
                 </div>
                 <div class="col-md-3">
-                    <label for="inputPassword4" class="form-label">Fantasia</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                    <label for="Fantasia" class="form-label">Fantasia</label>
+                    <input type="text" class="form-control form-control-sm" id="Fantasia">
                 </div>
 
                 <div class="col-md-1">
-                    <label for="inputEmail4" class="form-label">Endereço</label>
-                    <input type="text" class="form-control form-control-sm" id="inputEmail4">
+                    <label for="Endereco" class="form-label">Endereço</label>
+                    <input type="text" class="form-control form-control-sm" id="Endereco">
                 </div>
                 <div class="col-md-4">
                     <label for="inputPassword4" class="form-label">Bairro</label>
@@ -232,71 +261,42 @@
 
 </div>
 
-<div class="table-responsive" style="height: 300px; overflow-y: auto;">
-    <table id="clientesTable" class="table table-sm">
-        <thead class="table-floating-header">
+<table id="clientesTable" class="table table-sm">
+    <thead class="table-floating-header">
+        <tr>
+            <th scope="col">Ação</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">Código</th>
+            <th scope="col">Razão</th>
+            <th scope="col">Fantasia</th>
+            <th scope="col">CPF/CNPJ</th>
+            <th scope="col">RG/Insc. Estadual</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in clientes)
+        {
             <tr>
-                <th scope="col">Ação</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Código</th>
-                <th scope="col">Razão</th>
-                <th scope="col">Fantasia</th>
-                <th scope="col">CPF/CNPJ</th>
-                <th scope="col">RG/Insc. Estadual</th>
+                <td>
+                    <div align="center" style="white-space: nowrap;">
+                        <a href="@Url.Action("Procurar", "Clientes", new { id =@cliente.id })" title="Procurar"><i class="fas fa-search"></i></a>
+                        <a href="@Url.Action("IncluirCliente", "Clientes", new { uid = @cliente.uid })" title="Editar"><i class="fa fa-pencil-alt"></i></a>
+                        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@cliente.id" data-name="@cliente.companyName" title="Excluir"><i class="fa fa-trash-alt"></i></button>
+                    </div>
+                </td>
+                <td>@cliente.companyId</td>
+                <td>@cliente.id</td>
+                <td>@cliente.companyName</td>
+                <td>@cliente.tradingName</td>
+                <td>@cliente.taxPayerId</td>
+                <td>@cliente.identificationCard</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var cliente in clientes)
-            {
-                <tr>
-                    <td>
-                        <div align="center" style="white-space: nowrap;">
-                            <a href="@Url.Action("Procurar", "Clientes", new { id =@cliente.id })" title="Procurar"><i class="fas fa-search"></i></a>
-                            <a href="@Url.Action("Editar", "Clientes", new { id = @cliente.id })" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                            <a href="@Url.Action("Excluir", "Clientes", new { id = @cliente.id })" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este cliente?');"><i class="fa fa-trash-alt"></i></a>
-                        </div>
-                    </td>
-                    <td>@cliente.companyName</td>
-                    <td>@cliente.id</td>
-                    <td>@cliente.companyName</td>
-                    <td>@cliente.tradingName</td>
-                    <td>@cliente.taxPayerNumber</td>
-                    <td>@cliente.identificationCard</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-</div>
+        }
+    </tbody>
+</table>
 
-<!-- Adicione um elemento modal em algum lugar do seu código -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Título da modal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Conteúdo da sua modal -->
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar mudanças</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Adicione este script para abrir a modal quando o input for clicado -->
-<script>
-    document.getElementById('inputEmail4').addEventListener('click', function () {
-        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-        myModal.show();
-    });
-</script>
-
+<!-- Validação de campos -->
 <script>
     (function () {
         'use strict';
@@ -315,4 +315,22 @@
     })();
 </script>
 
+<!-- Tela modal para a opcao de exclusão de cliente -->
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var clientId = button.getAttribute('data-id');
+        var clientName = button.getAttribute('data-name');
 
+        var modalTitle = deleteModal.querySelector('.modal-title');
+        var modalBody = deleteModal.querySelector('.modal-body #clientName');
+        var clientIdInput = deleteModal.querySelector('.modal-footer #clientId');
+        var deleteForm = deleteModal.querySelector('.modal-footer #deleteForm');
+
+        modalTitle.textContent = 'Excluir Cliente: ' + clientName;
+        modalBody.textContent = clientName;
+        clientIdInput.value = clientId;
+        deleteForm.action = '@Url.Action("ExcluirCliente", "Clientes")';
+    });
+</script>

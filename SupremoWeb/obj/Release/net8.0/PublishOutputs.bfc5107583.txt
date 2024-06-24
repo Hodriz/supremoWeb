@@ -1,0 +1,15 @@
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\SupremoWeb.exe
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\appsettings.json
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\libman.json
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\SupremoWeb.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\SupremoWeb.deps.json
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\SupremoWeb.runtimeconfig.json
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\SupremoWeb.pdb
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\GraphQL.Client.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\GraphQL.Client.Abstractions.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\GraphQL.Client.Abstractions.Websocket.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\GraphQL.Client.Serializer.Newtonsoft.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\GraphQL.Primitives.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\@Projetos\Fork-SupremoWeb\SupremoWeb\obj\Release\net8.0\PubTmp\Out\System.Reactive.dll

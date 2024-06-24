@@ -44,45 +44,11 @@ namespace SupremoWeb.Repository
             else
             {
                 RetornoAutenticacaoModel.IsSuccess = false;
-                RetornoAutenticacaoModel.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
+                RetornoAutenticacaoModel.Message = "Houve uma falha ao receber o token. Verificar arquivo de Log !!!";
                 RetornoAutenticacaoModel.MessageHeading = "FALHA";
             }
 
         }
-
-        //public async Task<RetornoAutenticacaoModel> AutenticacaoLogin(LoginModel loginModel)
-        //{
-        //    RetornoAutenticacaoModel retornoAutenticacao = new RetornoAutenticacaoModel();
-
-        //    string token = await ObtemToken(loginModel);
-
-        //    if (!string.IsNullOrEmpty(token))
-        //    {
-        //        if (token != ".")
-        //        {
-        //            retornoAutenticacao.IsSuccess = true;
-        //            retornoAutenticacao.token = token;
-        //            retornoAutenticacao.Message = "Bem Vindo ao Sistema SupermoWEB";
-        //            retornoAutenticacao.MessageHeading = "ok";
-        //        }
-        //        else
-        //        {
-        //            retornoAutenticacao.IsSuccess = false;
-        //            retornoAutenticacao.Message = "Usuário ou senha inválido !!!";
-        //            retornoAutenticacao.MessageHeading = "aviso";
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        retornoAutenticacao.IsSuccess = false;
-        //        retornoAutenticacao.Message = "Houve uma falha ao receber o token. Verificar o arquivo de Log !!!";
-        //        retornoAutenticacao.MessageHeading = "falha";
-        //    }
-
-        //    return retornoAutenticacao;
-
-        //}
 
         public async Task<string> ObtemToken(LoginModel loginModel)
         {
@@ -118,18 +84,4 @@ namespace SupremoWeb.Repository
 
     }
 
-    //public class SignIn
-    //{
-    //    public string AccessCode { get; set; }
-    //}
-
-    //public class Data
-    //{
-    //    public SignIn SignIn { get; set; }
-    //}
-
-    //public class DataObject
-    //{
-    //    public Data Data { get; set; }
-    //}
 }

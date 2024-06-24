@@ -15,6 +15,8 @@ namespace SupremoWeb.Controllers
             _clientFactory = clientFactory;
         }
 
+        [HttpGet]
+        [Route("Clientes")]
         public async Task<IActionResult> Index()
         {
             Shared shared = new Shared();
@@ -28,7 +30,9 @@ namespace SupremoWeb.Controllers
             return View();
         }
 
-        public IActionResult IncluirCliente()
+        [HttpGet]
+        [Route("Clientes/IncluirCliente")]
+        public async Task<IActionResult> IncluirCliente()           //Incluir Novo Cliente
         {
             Shared shared = new Shared();
             ViewBag.EstadosBrasileiros = shared.RetornaEstadosBrasileiro();
@@ -36,19 +40,58 @@ namespace SupremoWeb.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Route("Clientes/IncluirCliente/{uid:int}")]                //Editar Cliente
+        public async Task<IActionResult> IncluirCliente(int uid)
+        {
+            Shared shared = new Shared();
+            ViewBag.EstadosBrasileiros = shared.RetornaEstadosBrasileiro();
+
+            ClienteModel clienteModels = await _telaClientesRepository.ListCliente(uid);
+
+            return View("IncluirCliente", clienteModels);
+        }
+
+        [HttpPost]
+        [Route("Clientes/IncluirCliente/{uid:int}")]                //Editar Cliente
+        public async Task<IActionResult> IncluirCliente(int uid, ClienteModel clienteModel)
+        {
+            Shared shared = new Shared();
+            ViewBag.EstadosBrasileiros = shared.RetornaEstadosBrasileiro();
+
+            ClienteModel clienteModels = await _telaClientesRepository.ListCliente(uid);
+
+            return View("IncluirCliente", clienteModels);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Clientes/IncluirCliente")]                          //Grava Cliente na Base de Dados
         public async Task<IActionResult> IncluirCliente(ClienteModel cliente)
         {
             if (ModelState.IsValid)
             {
-                MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(cliente);
-                TempData["Message"] = mensagemModel.Message;
-                TempData["MessageHeading"] = mensagemModel.MessageHeading;
-
-                if (mensagemModel.IsSuccess)
+                if (cliente.uid == 0)
                 {
-                    return RedirectToAction("IncluirCliente");
+                    MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(cliente);
+                    TempData["Message"] = mensagemModel.Message;
+                    TempData["MessageHeading"] = mensagemModel.MessageHeading;
+
+                    if (mensagemModel.IsSuccess)
+                    {
+                        return RedirectToAction("IncluirCliente");
+                    }
+                }
+                else
+                {
+                    MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(cliente);
+                    TempData["Message"] = mensagemModel.Message;
+                    TempData["MessageHeading"] = mensagemModel.MessageHeading;
+
+                    if (mensagemModel.IsSuccess)
+                    {
+                        return RedirectToAction("IncluirCliente");
+                    }
                 }
             }
 
@@ -56,6 +99,20 @@ namespace SupremoWeb.Controllers
             ViewBag.EstadosBrasileiros = shared.RetornaEstadosBrasileiro();
 
             return View(cliente);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExcluirCliente(int id)
+        {
+            if (id > 0)
+            {
+                MensagemModel mensagemModel = await _telaClientesRepository.DeleteCliente(id);
+                TempData["Message"] = mensagemModel.Message;
+                TempData["MessageHeading"] = mensagemModel.MessageHeading;
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

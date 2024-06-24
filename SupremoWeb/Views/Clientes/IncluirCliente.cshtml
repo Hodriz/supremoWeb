@@ -25,18 +25,18 @@
                     <form class="login-form row g-3" asp-controller="Clientes" asp-action="IncluirCliente" id="formIncluirCliente" method="post" novalidate>
                         <div class="col-md-6">
                             <label class="label small" asp-for="companyName">Razão</label>
-                            <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" required>
+                            <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" required maxlength="50">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="companyName"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="label small" asp-for="tradingName">Fantasia</label>
-                            <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" required>
+                            <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" required maxlength="40">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="tradingName"></span>
                         </div>
 
                         <div class="col-6">
                             <label class="label small" asp-for="street">Endereço</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="street" required>
+                            <input type="text" class="form-control form-control-sm" asp-for="street" required maxlength="60">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="street"></span>
                         </div>
                         <div class="col-2">
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-4">
                             <label class="label small" asp-for="complement">Complemento</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="complement">
+                            <input type="text" class="form-control form-control-sm" asp-for="complement" maxlength="60">
                         </div>
 
                         <div class="col-md-3">
@@ -55,12 +55,12 @@
                         </div>
                         <div class="col-md-3">
                             <label class="label small" asp-for="city">Cidade</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="city" required>
+                            <input type="text" class="form-control form-control-sm" asp-for="city" required maxlength="40">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="city"></span>
                         </div>
                         <div class="col-md-3">
                             <label class="label small" asp-for="neighborhood">Bairro</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="neighborhood" required>
+                            <input type="text" class="form-control form-control-sm" asp-for="neighborhood" required maxlength="40">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="neighborhood"></span>
                         </div>
                         <div class="col-md-3">
@@ -76,13 +76,13 @@
                         </div>
 
                         <div class="col-6">
-                            <label class="label small" asp-for="taxPayerNumber">CPF</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="taxPayerNumber" required v-mask="'##.###.###/####-##'">
-                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="taxPayerNumber"></span>
+                            <label class="label small" asp-for="taxPayerId">CPF</label>
+                            <input type="text" class="form-control form-control-sm" asp-for="taxPayerId" required v-mask="'##.###.###/####-##'">
+                            <span class="text-danger small" style="font-size: smaller;" asp-validation-for="taxPayerId"></span>
                         </div>
                         <div class="col-6">
                             <label class="label small" asp-for="identificationCard">RG</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="identificationCard" required>
+                            <input type="text" class="form-control form-control-sm" asp-for="identificationCard" required maxlength="15">
                             <span class="text-danger small" style="font-size: smaller;" asp-validation-for="identificationCard"></span>
                         </div>
 
@@ -97,11 +97,11 @@
 
                         <div class="col-md-6">
                             <label class="label small" asp-for="email">Email</label>
-                            <input type="email" class="form-control form-control-sm" asp-for="email">
+                            <input type="email" class="form-control form-control-sm" asp-for="email" maxlength="100">
                         </div>
                         <div class="col-md-6">
                             <label class="label small" asp-for="website">Site</label>
-                            <input type="text" class="form-control form-control-sm" asp-for="website">
+                            <input type="text" class="form-control form-control-sm" asp-for="website" maxlength="50">
                         </div>
 
                         <div class="row col-5 mt-2">
