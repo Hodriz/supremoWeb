@@ -50,9 +50,7 @@
                             <a><i class="fa fa-tachometer-alt"></i><span>Arquivos</a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="Clientes">Cliente</a></li>
-                                    <li><a href="@Url.Action("/incluir")">Incluir Cliente</a></li>
-
+                                    <li><a href="@Url.Action("Index", "Clientes")">Cliente</a></li>
                                     <li><a href="#">Empresa</a></li>
                                     <li><a href="#">Vendedores</a></li>
                                     <li><a href="#">Fornecedores</a></li>
@@ -208,11 +206,6 @@
         });
     </script>
 
-    <!--css-->
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @*     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script> *@
-    @*     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script> *@
-
     <!--Menu Sidebar-->
     <script type="text/javascript">
         jQuery(function ($) {
@@ -248,6 +241,12 @@
         });
     </script>
 
+    <!--css-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script> *@
+    @*     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script> *@
+
+    <!--Session Scripts-->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
