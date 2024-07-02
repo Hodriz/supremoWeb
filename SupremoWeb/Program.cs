@@ -1,5 +1,7 @@
 using SupremoWeb.Repository;
 using SupremoWeb.Views.Shared;
+using FluentValidation.AspNetCore;
+using SupremoWeb.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,10 @@ builder.Services.AddScoped<ITelaClientesRepository, TelaClientesRepository>();
 builder.Services.AddSingleton<IConfiguration>(provider =>new ConfigurationBuilder()  
     .AddJsonFile("appsettings.json")
     .Build());
+
+// Adicione os serviços ao container.
+builder.Services.AddControllersWithViews()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ClienteModelValidator>());
 
 var app = builder.Build();
 

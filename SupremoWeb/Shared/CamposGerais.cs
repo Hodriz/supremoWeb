@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace SupremoWeb.Repository
+namespace SupremoWeb.Shared
 {
-    public class Shared
+    public class CamposGerais
     {
         public List<SelectListItem> RetornaEstadosBrasileiro()
         {
@@ -49,6 +49,18 @@ namespace SupremoWeb.Repository
             };
 
             return atuacao;
+        }
+
+        public List<SelectListItem> RetornaTipoPessoa()
+        {
+            var tipoPessoa = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Pessoa Física", Value = "INDIVIDUAL" },
+                new SelectListItem { Text = "Pessoa Jurídica", Value = "LEGAL_ENTITY" },
+                new SelectListItem { Text = "Produtor Rural", Value = "RURAL_PRODUCER" },
+            };
+
+            return tipoPessoa;
         }
     }
 }

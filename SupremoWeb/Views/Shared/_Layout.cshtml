@@ -206,11 +206,6 @@
         });
     </script>
 
-    <!--css-->
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @*     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script> *@
-    @*     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script> *@
-
     <!--Menu Sidebar-->
     <script type="text/javascript">
         jQuery(function ($) {
@@ -246,6 +241,12 @@
         });
     </script>
 
+    <!--css-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script> *@
+    @*     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script> *@
+
+    <!--Session Scripts-->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

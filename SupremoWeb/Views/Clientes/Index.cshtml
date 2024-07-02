@@ -21,7 +21,7 @@
                 },
                 "searching": false,                                 // Desabilita a função de pesquisa
                 "lengthMenu": [[8, 10, 20, 50], [8, 10, 20, 50]],   // Define as opções de número de registros por página
-                "pageLength": 8                                    // Define o número padrão de registros por página
+                "pageLength": 8                                     // Define o número padrão de registros por página
             });
         });
     </script>
@@ -35,10 +35,6 @@
             el: '#formIncluirCliente'
         });
     </script>
-}
-
-@{
-    IEnumerable<NodeModel> clientes = ViewBag.Clientes;
 }
 
 @* Botao incluir Cliente *@
@@ -274,7 +270,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var cliente in clientes)
+        @foreach (var cliente in ViewBag.Clientes)
         {
             <tr>
                 <td>
@@ -294,7 +290,6 @@
         }
     </tbody>
 </table>
-
 
 <!-- Validação de campos -->
 <script>

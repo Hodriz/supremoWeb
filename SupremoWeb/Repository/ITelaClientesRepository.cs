@@ -8,8 +8,9 @@ namespace SupremoWeb.Repository
     public interface ITelaClientesRepository
     {
         Task<IEnumerable<NodeModel>> ListAllClientes();
-        Task<ClienteModel> ListCliente(int uid);
-        Task<MensagemModel> AddCliente(ClienteModel cliente);
+        Task<ClienteTotalModel> ListCliente(int uid);
+        Task<MensagemModel> AddCliente(ClienteTotalModel clienteTotalModel);
+        Task<MensagemModel> UpdateCliente(ClienteTotalModel clienteTotalModel);
         Task<MensagemModel> DeleteCliente(int uid);
     }
 
@@ -41,7 +42,7 @@ namespace SupremoWeb.Repository
             }
         }
 
-        public async Task<ClienteModel> ListCliente(int uid)
+        public async Task<ClienteTotalModel> ListCliente(int uid)
         {
             try
             {
@@ -49,7 +50,6 @@ namespace SupremoWeb.Repository
                 var request = new HttpRequestMessage(HttpMethod.Post, _configuration["Parametros:url"]);
                 request.Headers.Add("Authorization", "Bearer " + RetornoAutenticacaoModel.token);
 
-                // Construir a string JSON com o valor do parâmetro uid
                 var queryObject = new
                 {
                     query = @"query Customers($filter: CustomerFilter) {
@@ -58,6 +58,7 @@ namespace SupremoWeb.Repository
                                 node {
                                     uid
                                     companyId
+                                    personType
                                     id
                                     companyName
                                     tradingName
@@ -75,6 +76,7 @@ namespace SupremoWeb.Repository
                                     postalCode
                                     website
                                     lobId
+                                    personType
                                 }
                             }
                         }
@@ -104,31 +106,41 @@ namespace SupremoWeb.Repository
                 IEnumerable<NodeModel> nodes = rootObject.data.Customers.edges.Select(e => e.node).ToArray();
 
                 NodeModel nodeModel = nodes.FirstOrDefault();
-                ClienteModel clienteModel = new ClienteModel();
+                ClienteTotalModel clienteTotalModel = new ClienteTotalModel();
 
                 if (nodeModel != null)
                 {
-                    clienteModel.uid = Convert.ToInt32(nodeModel.uid);
-                    clienteModel.lobId = Convert.ToInt32(nodeModel.lobId);
-                    clienteModel.companyId = Convert.ToInt32(nodeModel.companyId);
-                    clienteModel.companyName = nodeModel.companyName.Trim();
-                    clienteModel.tradingName = nodeModel.tradingName.Trim();
-                    clienteModel.street = nodeModel.street.Trim();
-                    clienteModel.complement = nodeModel.complement.Trim();
-                    clienteModel.state = nodeModel.state.Trim();
-                    clienteModel.city = nodeModel.city.Trim();
-                    clienteModel.postalCode = nodeModel.postalCode.Trim();
-                    clienteModel.neighborhood = nodeModel.neighborhood.Trim();
-                    clienteModel.houseNumber = Convert.ToInt32(nodeModel.houseNumber);
-                    clienteModel.taxPayerId = nodeModel.taxPayerId.Trim();
-                    clienteModel.identificationCard = nodeModel.identificationCard.Trim();
-                    clienteModel.phone = nodeModel.phone.Trim();
-                    clienteModel.cellphone = nodeModel.cellphone.Trim();
-                    clienteModel.email = nodeModel.email.Trim();
-                    clienteModel.website = nodeModel.website.Trim();
+                    clienteTotalModel.uid = Convert.ToInt32(nodeModel.uid);
+                    clienteTotalModel.lobId = Convert.ToInt32(nodeModel.lobId);
+                    clienteTotalModel.personType = nodeModel.personType;
+                    clienteTotalModel.companyId = Convert.ToInt32(nodeModel.companyId);
+                    clienteTotalModel.postalCode = nodeModel.postalCode?.Trim()?? nodeModel.postalCode;
+                    clienteTotalModel.identificationCard = nodeModel.identificationCard?.Trim()?? nodeModel.identificationCard;
+                    clienteTotalModel.phone = nodeModel.phone?.Trim()?? nodeModel.phone;
+                    clienteTotalModel.cellphone = nodeModel.cellphone?.Trim()?? nodeModel.cellphone;
+                    clienteTotalModel.companyName = nodeModel.companyName?.Trim()?? nodeModel.companyName;
+                    clienteTotalModel.tradingName = nodeModel.tradingName?.Trim()?? nodeModel.tradingName;
+                    clienteTotalModel.street = nodeModel.street?.Trim()?? nodeModel.street;
+                    clienteTotalModel.complement = nodeModel.complement?.Trim() ?? nodeModel.complement;
+                    clienteTotalModel.state = nodeModel.state?.Trim() ?? nodeModel.state;
+                    clienteTotalModel.city = nodeModel.city?.Trim() ?? nodeModel.city;
+                    clienteTotalModel.postalCode = nodeModel.postalCode?.Trim() ?? nodeModel.postalCode;
+                    clienteTotalModel.neighborhood = nodeModel.neighborhood?.Trim() ?? nodeModel.neighborhood;
+                    clienteTotalModel.houseNumber = Convert.ToInt32(nodeModel.houseNumber);
+                    clienteTotalModel.email = nodeModel.email?.Trim() ?? nodeModel.email;
+                    clienteTotalModel.website = nodeModel.website?.Trim() ?? nodeModel.website;
+
+                    if (clienteTotalModel.personType == "LEGAL_ENTITY")
+                    {
+                        clienteTotalModel.cnpj = nodeModel.taxPayerId?.Trim() ?? nodeModel.taxPayerId;
+                    }
+                    else
+                    {
+                        clienteTotalModel.cpf = nodeModel.taxPayerId?.Trim() ?? nodeModel.taxPayerId;
+                    }
                 }
 
-                return clienteModel;
+                return clienteTotalModel;
             }
             catch (Exception ex)
             {
@@ -136,22 +148,51 @@ namespace SupremoWeb.Repository
                 return null;
             }
         }
-                
-        public async Task<MensagemModel> AddCliente(ClienteModel cliente)
+
+        public async Task<MensagemModel> AddCliente(ClienteTotalModel clienteTotalModel)
         {
             try
             {
-                cliente.lobId = 0;
-                cliente.companyId = 0;
-                cliente.postalCode = cliente.postalCode.Replace("-", "");
-                cliente.taxPayerId = cliente.taxPayerId.Replace(".", "");
-                cliente.taxPayerId = cliente.taxPayerId.Replace("/", "");
-                cliente.cellphone = cliente.cellphone.Replace("(", "");
-                cliente.cellphone = cliente.cellphone.Replace(")", "");
-                cliente.cellphone = cliente.cellphone.Replace("-", "");
-                cliente.phone = cliente.phone.Replace("(", "");
-                cliente.phone = cliente.phone.Replace(")", "");
-                cliente.phone = cliente.phone.Replace("-", "");
+                //Prepara classe para envio
+                ClienteAddModel clienteAddModel = new ClienteAddModel();
+
+                clienteAddModel.lobId = 0;
+                clienteAddModel.companyId = 0;
+                clienteAddModel.personType = clienteTotalModel.personType;
+                clienteAddModel.companyName = clienteTotalModel.companyName;
+                clienteAddModel.tradingName = clienteTotalModel.tradingName;
+                clienteAddModel.street = clienteTotalModel.street;
+                clienteAddModel.complement = clienteTotalModel.complement;
+                clienteAddModel.state = clienteTotalModel.state;
+                clienteAddModel.city = clienteTotalModel.city;
+                clienteAddModel.email = clienteTotalModel.email;
+                clienteAddModel.website = clienteTotalModel.website;
+
+                clienteAddModel.postalCode = clienteTotalModel.postalCode?.Replace("-", "") ?? clienteTotalModel.postalCode; 
+
+                clienteAddModel.neighborhood = clienteTotalModel.neighborhood;
+                clienteAddModel.houseNumber = clienteTotalModel.houseNumber;
+                clienteAddModel.identificationCard = clienteTotalModel.identificationCard;
+
+                clienteAddModel.phone = clienteTotalModel.phone?.Replace("(", "") ?? clienteTotalModel.phone;
+                clienteAddModel.phone = clienteAddModel.phone?.Replace(")", "") ?? clienteAddModel.phone;
+                clienteAddModel.phone = clienteAddModel.phone?.Replace("-", "") ?? clienteAddModel.phone;
+
+                clienteAddModel.cellphone = clienteTotalModel.cellphone?.Replace("(", "") ?? clienteTotalModel.cellphone;
+                clienteAddModel.cellphone = clienteAddModel.cellphone?.Replace(")", "") ?? clienteAddModel.cellphone;
+                clienteAddModel.cellphone = clienteAddModel.cellphone?.Replace("-", "") ?? clienteAddModel.cellphone;
+
+                if (clienteTotalModel.personType == "LEGAL_ENTITY")
+                {
+                    clienteAddModel.taxPayerId = clienteTotalModel.cnpj?.Replace(".", "") ?? clienteTotalModel.cnpj;
+                    clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("/", "") ?? clienteAddModel.taxPayerId;
+                    clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("-", "") ?? clienteAddModel.taxPayerId;
+                }
+                else
+                {
+                    clienteAddModel.taxPayerId = clienteTotalModel.cpf?.Replace(".", "") ?? clienteTotalModel.cpf;
+                    clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("-", "") ?? clienteAddModel.taxPayerId;
+                }
 
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, _configuration["Parametros:url"]);
@@ -176,10 +217,119 @@ namespace SupremoWeb.Repository
                         website
                         lobId
                         companyId
+                        personType
                     }
                 }";
 
-                var variables = new { customer = cliente };
+                var variables = new { customer = clienteAddModel };
+                var requestBody = new
+                {
+                    query = mutation,
+                    variables = variables
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+                request.Content = content;
+
+                var response = await client.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                dynamic result = JsonConvert.DeserializeObject(responseBody);
+
+                if (result.errors != null)
+                {
+                    foreach (var error in result.errors)
+                    {
+                        await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", error.message.ToString());
+                    }
+                    return new MensagemModel { IsSuccess = false, Message = $"Houve um erro na resposta !!!", MessageHeading = "AVISO" };
+                }
+
+                return new MensagemModel { IsSuccess = true, Message = $"Cliente {clienteAddModel.companyName} gravado com sucesso !!!", MessageHeading = "OK" };
+            }
+            catch (Exception ex)
+            {
+                await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", ex.Message);
+                return new MensagemModel { IsSuccess = false, Message = $"Houve um erro ao cadastrar/alterar o cliente !!!", MessageHeading = "FALHA" };
+            }
+        }
+
+        public async Task<MensagemModel> UpdateCliente(ClienteTotalModel clienteTotalModel)
+        {
+            try
+            {
+                //Prepara classe para envio
+                ClienteModel clienteModel = new ClienteModel();
+
+                clienteModel.uid = clienteTotalModel.uid;   //Obrigatório na alteração
+                clienteModel.lobId = 0;
+                clienteModel.companyId = 0;
+                clienteModel.personType = clienteTotalModel.personType;
+                clienteModel.companyName = clienteTotalModel.companyName;
+                clienteModel.tradingName = clienteTotalModel.tradingName;
+                clienteModel.street = clienteTotalModel.street;
+                clienteModel.complement = clienteTotalModel.complement;
+                clienteModel.state = clienteTotalModel.state;
+                clienteModel.city = clienteTotalModel.city;
+                clienteModel.email = clienteTotalModel.email;
+                clienteModel.website = clienteTotalModel.website;
+
+                clienteModel.postalCode = clienteTotalModel.postalCode?.Replace("-", "") ?? clienteTotalModel.postalCode;
+
+                clienteModel.neighborhood = clienteTotalModel.neighborhood;
+                clienteModel.houseNumber = clienteTotalModel.houseNumber;
+                clienteModel.identificationCard = clienteTotalModel.identificationCard;
+
+                clienteModel.phone = clienteTotalModel.phone?.Replace("(", "") ?? clienteTotalModel.phone;
+                clienteModel.phone = clienteModel.phone?.Replace(")", "") ?? clienteModel.phone;
+                clienteModel.phone = clienteModel.phone?.Replace("-", "") ?? clienteModel.phone;
+
+                clienteModel.cellphone = clienteTotalModel.cellphone?.Replace("(", "") ?? clienteTotalModel.cellphone;
+                clienteModel.cellphone = clienteModel.cellphone?.Replace(")", "") ?? clienteModel.cellphone;
+                clienteModel.cellphone = clienteModel.cellphone?.Replace("-", "") ?? clienteModel.cellphone;
+
+                if (clienteTotalModel.personType == "LEGAL_ENTITY")
+                {
+                    clienteModel.taxPayerId = clienteTotalModel.cnpj?.Replace(".", "") ?? clienteTotalModel.cnpj;
+                    clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("/", "") ?? clienteModel.taxPayerId;
+                    clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("-", "") ?? clienteModel.taxPayerId;
+                }
+                else
+                {
+                    clienteModel.taxPayerId = clienteTotalModel.cpf?.Replace(".", "") ?? clienteTotalModel.cpf;
+                    clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("-", "") ?? clienteModel.taxPayerId;
+                }
+
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, _configuration["Parametros:url"]);
+                request.Headers.Add("Authorization", "Bearer " + RetornoAutenticacaoModel.token);
+
+                var mutation = @"mutation AddCustomer($customer: AddCustomerInput!) {
+                    addCustomer(customer: $customer) {
+                        uid
+                        companyName
+                        tradingName
+                        taxPayerId
+                        identificationCard
+                        postalCode
+                        email
+                        street
+                        houseNumber
+                        complement
+                        neighborhood
+                        city
+                        state
+                        phone
+                        cellphone
+                        website
+                        lobId
+                        companyId
+                        personType
+                    }
+                }";
+
+                var variables = new { customer = clienteModel };
                 var requestBody = new
                 {
                     query = mutation,
@@ -205,12 +355,12 @@ namespace SupremoWeb.Repository
                     return new MensagemModel { IsSuccess = false, Message = $"Houve um erro na resposta !!!", MessageHeading = "AVISO" };
                 }
 
-                return new MensagemModel { IsSuccess = true, Message = $"Cliente {cliente.companyName} cadastrado com sucesso !!!", MessageHeading = "OK" };
+                return new MensagemModel { IsSuccess = true, Message = $"Cliente {clienteModel.companyName} atualizado com sucesso !!!", MessageHeading = "OK" };
             }
             catch (Exception ex)
             {
                 await _loggerRepository.WriteLog("TelaClientesRepository", "AddCliente", ex.Message);
-                return new MensagemModel { IsSuccess = false, Message = $"Houve um erro ao cadastrar o cliente !!!", MessageHeading = "FALHA" };
+                return new MensagemModel { IsSuccess = false, Message = $"Houve um erro ao cadastrar/alterar o cliente !!!", MessageHeading = "FALHA" };
             }
         }
 
