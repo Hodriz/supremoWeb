@@ -1,4 +1,6 @@
-﻿<h1>Clientes</h1>
+﻿@model ClienteFiltroModel
+
+<h1>Clientes</h1>
 
 @section Scripts {
     @* Paginação *@
@@ -86,21 +88,19 @@
         <div class="d-flex justify-content-start">
 
             <!-- Botão de Pesquisa -->
-            <form class="d-flex me-2">
-                <div style="width: 200px; margin-right: 5px;">
-                    <input class="form-control form-control-sm" type="search" placeholder="Pesquisa" aria-label="Pesquisa">
-                </div>
-                <div style="margin: 0px;">
-                    <button class="btn btn-outline-success btn-sm" type="submit">Pesquisar</button>
-                </div>
-            </form>
-
-            <!-- Botão para abrir os filtros -->
+            @*             <form class="d-flex me-2">
+            <div style="width: 200px; margin-right: 5px;">
+            <input class="form-control form-control-sm" type="search" placeholder="Pesquisa" aria-label="Pesquisa">
+            </div>
             <div style="margin: 0px;">
-                <a class="btn btn-outline-primary btn-sm " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Abrir Filtros</a>
+            <button class="btn btn-outline-success btn-sm" type="submit">Pesquisar</button>
+            </div>
+            </form> *@
+
+            <div style="margin: 0px;">
+                <a class="btn btn-outline-primary btn-sm " data-bs-toggle="collapse" href="#collapseFiltro" role="button" aria-expanded="false" aria-controls="collapseExample">Abrir Filtros</a>
             </div>
 
-            <!-- Botão Fechar com redirecionamento -->
             <div style="margin-left: 5px;">
                 <a href="/home" class="btn btn-outline-danger btn-sm">Fechar</a>
             </div>
@@ -108,146 +108,100 @@
     </div>
 </div>
 
-<div class="collapse mt-2" id="collapseExample">
+<div class="collapse mt-2" id="collapseFiltro">
 
-    <div class="card">
-        <div class="card-header">Ordenado por</div>
-        <div class="card-body">
-            <div class="row">
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Código</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Razão</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Fantasia</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Bairro</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Cidade</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Estado</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">CPF/CNPJ</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">RG/I.E</label>
-                </div>
-
-                <div class="col">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">Ramo</label>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card mt-1">
+    <div class="card mt-1 mb-2">
         <div class="card-header">Filtrado por</div>
         <div class="card-body">
 
-            <form class="row g-3" id="formIncluirCliente">
-                <div class="col-md-1">
-                    <label for="Empresa" class="form-label">Empresa</label>
-                    <input type="text" class="form-control form-control-sm" id="Empresa">
-                </div>
-                <div class="col-md-4">
-                    <label for="Cliente" class="form-label">Cliente</label>
-                    <input type="text" class="form-control form-control-sm" id="Cliente">
-                </div>
-                <div class="col-md-4">
-                    <label for="Razao" class="form-label">Razão</label>
-                    <input type="text" class="form-control form-control-sm" id="Razao">
-                </div>
-                <div class="col-md-3">
-                    <label for="Fantasia" class="form-label">Fantasia</label>
-                    <input type="text" class="form-control form-control-sm" id="Fantasia">
+            <form class="row g-3" asp-controller="Clientes" asp-action="ListFiltroClientes" id="formFiltroCliente" method="post" novalidate>
+
+                <div class="row col-12">
+                    <div class="col-1">
+                        <label class="label small" asp-for="empresa">Empresa</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="empresa" name="empresa" required maxlength="10">
+                    </div>
+                    <div class="col-1">
+                        <label class="label small" asp-for="codigo">Código</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="codigo" name="codigo" required maxlength="10">
+                    </div>
+
+                    <div class="col-3">
+                        <label class="label small" asp-for="companyName">Razão</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" required maxlength="50">
+                    </div>
+                    <div class="col-3">
+                        <label class="label small" asp-for="tradingName">Fantasia</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" required maxlength="40">
+                    </div>
+                    <div class="col-2">
+                        <label class="label small" asp-for="cpfCnpj">CPF/CNPJ</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="cpfCnpj" name="cpfCnpj" required maxlength="20">
+                    </div>
+                    <div class="col-2">
+                        <label class="label small" asp-for="rgInscricao">RG/Inscr. Estadual</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="rgInscricao" name="rgInscricao" required maxlength="20">
+                    </div>
                 </div>
 
-                <div class="col-md-1">
-                    <label for="Endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control form-control-sm" id="Endereco">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Bairro</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Cidade</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
-                </div>
-                <div class="col-md-3">
-                    <label for="inputState" class="form-label">UF</label>
-                    <select id="inputState" class="form-select form-select-sm">
-                        <option selected>Escolha...</option>
-                        @foreach (var estado in ViewBag.EstadosBrasileiros as List<SelectListItem>)
-                        {
-                            <option value="@estado.Value">@estado.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label for="inputPassword4" class="form-label">CPF/CNPJ</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                <div class="row col-12">
+                    <div class="col-4">
+                        <label class="label small" asp-for="endereco">Endereço</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="endereco" name="endereco" required maxlength="10">
+                    </div>
+                    <div class="col-4">
+                        <label class="label small" asp-for="bairro">Bairro</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="bairro" name="bairro" required maxlength="10">
+                    </div>
+
+                    <div class="col-2">
+                        <label class="label small" asp-for="cidade">Cidade</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="cidade" name="cidade" required maxlength="50">
+                    </div>
+                    <div class="col-2">
+                        <label class="label small" asp-for="uf">UF</label>
+                        <select asp-for="uf" class="form-select form-select-sm">
+                            <option value="">Escolha...</option>
+                            @foreach (var estado in ViewBag.EstadosBrasileiros as List<SelectListItem>)
+                            {
+                                <option value="@estado.Value">@estado.Text</option>
+                            }
+                        </select>
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="inputEmail4" class="form-label">RG/I.E</label>
-                    <input type="text" class="form-control form-control-sm" id="inputEmail4">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Vendedor</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputPassword4" class="form-label">Telefone</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4" v-mask="'########'">
+                <div class="row col-12">
+                    <div class="col-3">
+                        <label class="label small" asp-for="vendedor">Vendedor</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="vendedor" name="vendedor" required maxlength="20">
+                    </div>
+                    <div class="col-3">
+                        <label class="label small" asp-for="telefone">Telefone</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="telefone" name="telefone" required maxlength="20">
+                    </div>
+                    <div class="col-3">
+                        <label class="label small" asp-for="atuacao">Atuação</label>
+                        <select asp-for="atuacao" class="form-select form-select-sm">
+                            <option value="">Escolha...</option>
+                            @foreach (var atuacao in ViewBag.Atuacao as List<SelectListItem>)
+                            {
+                                <option value="@atuacao.Value">@atuacao.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="label small" asp-for="ramo">Ramo</label>
+                        <input type="text" class="form-control form-control-sm input" asp-for="ramo" name="ramo" required maxlength="20">
+                    </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label for="inputEmail4" class="form-label">Ramo</label>
-                    <input type="text" class="form-control form-control-sm" id="inputEmail4">
-                </div>
-                <div class="col-md-3">
-                    <label for="inputPassword4" class="form-label">Setor Comercial</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
-                </div>
-                <div class="col-md-3">
-                    <label for="inputState" class="form-label">Atuação</label>
-                    <select id="inputState" class="form-select form-select-sm">
-                        <option selected>Escolha...</option>
-                        @foreach (var atuacao in ViewBag.Atuacao as List<SelectListItem>)
-                        {
-                            <option value="@atuacao.Value">@atuacao.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="inputPassword4" class="form-label">Rota</label>
-                    <input type="text" class="form-control form-control-sm" id="inputPassword4">
+                <div class="row col-5 mt-4">
+                    <div class="col-2" style="width:85px">
+                        <button type="submit" class="btn btn-outline-success btn-sm">Pesquisar</button>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-outline-danger btn-sm " data-bs-toggle="collapse" href="#collapseFiltro" role="button" aria-expanded="false" aria-controls="collapseExample">Fechar</a>
+                    </div>
                 </div>
             </form>
 

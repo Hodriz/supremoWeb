@@ -8,6 +8,7 @@ namespace SupremoWeb.Repository
     public interface ITelaClientesRepository
     {
         Task<IEnumerable<NodeModel>> ListAllClientes();
+        Task<IEnumerable<NodeModel>> ListFiltroClientes(ClienteFiltroModel clienteFiltroModel);
         Task<ClienteTotalModel> ListCliente(int uid);
         Task<MensagemModel> AddCliente(ClienteTotalModel clienteTotalModel);
         Task<MensagemModel> UpdateCliente(ClienteTotalModel clienteTotalModel);
@@ -41,6 +42,49 @@ namespace SupremoWeb.Repository
                 return null;
             }
         }
+
+        public async Task<IEnumerable<NodeModel>> ListFiltroClientes(ClienteFiltroModel clienteFiltroModel)
+        {
+            try
+            {
+                var filters = new Dictionary<string, object>();
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.companyName))
+                {
+                    filters.Add("companyName", new { _iLike = $"%{clienteFiltroModel.companyName}%" });
+                }
+                if (!string.IsNullOrEmpty(clienteFiltroModel.tradingName))
+                {
+                    filters.Add("tradingName", new { _iLike = $"%{clienteFiltroModel.tradingName}%" });
+                }
+
+                var variables = new { filter = filters };
+                var query = new
+                {
+                    query = "query Customers($filter: CustomerFilter) { customers(filter: $filter) { edges { node { uid companyId id companyName tradingName taxPayerId identificationCard phone cellphone email neighborhood street houseNumber complement city state postalCode website lobId personType } } } }",
+                    variables = variables
+                };
+
+                var jsonContent = JsonConvert.SerializeObject(query);
+                StringContent stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                await _loggerRepository.WriteLog("TelaClientesRepository", "ListFiltroClientes", $"Request JSON: {jsonContent}");
+
+                var responseBody = await ShareFunctions.RecebeResponseBody(stringContent);
+                RootObjectModel rootObject = JsonConvert.DeserializeObject<RootObjectModel>(responseBody);
+                IEnumerable<NodeModel> nodes = rootObject.data.Customers.edges.Select(e => e.node).ToArray();
+
+                return nodes;
+            }
+            catch (Exception ex)
+            {
+                await _loggerRepository.WriteLog("TelaClientesRepository", "ListaAllClientes", ex.Message);
+                return null;
+            }
+        }
+
+
+
 
         public async Task<ClienteTotalModel> ListCliente(int uid)
         {
@@ -114,13 +158,13 @@ namespace SupremoWeb.Repository
                     clienteTotalModel.lobId = Convert.ToInt32(nodeModel.lobId);
                     clienteTotalModel.personType = nodeModel.personType;
                     clienteTotalModel.companyId = Convert.ToInt32(nodeModel.companyId);
-                    clienteTotalModel.postalCode = nodeModel.postalCode?.Trim()?? nodeModel.postalCode;
-                    clienteTotalModel.identificationCard = nodeModel.identificationCard?.Trim()?? nodeModel.identificationCard;
-                    clienteTotalModel.phone = nodeModel.phone?.Trim()?? nodeModel.phone;
-                    clienteTotalModel.cellphone = nodeModel.cellphone?.Trim()?? nodeModel.cellphone;
-                    clienteTotalModel.companyName = nodeModel.companyName?.Trim()?? nodeModel.companyName;
-                    clienteTotalModel.tradingName = nodeModel.tradingName?.Trim()?? nodeModel.tradingName;
-                    clienteTotalModel.street = nodeModel.street?.Trim()?? nodeModel.street;
+                    clienteTotalModel.postalCode = nodeModel.postalCode?.Trim() ?? nodeModel.postalCode;
+                    clienteTotalModel.identificationCard = nodeModel.identificationCard?.Trim() ?? nodeModel.identificationCard;
+                    clienteTotalModel.phone = nodeModel.phone?.Trim() ?? nodeModel.phone;
+                    clienteTotalModel.cellphone = nodeModel.cellphone?.Trim() ?? nodeModel.cellphone;
+                    clienteTotalModel.companyName = nodeModel.companyName?.Trim() ?? nodeModel.companyName;
+                    clienteTotalModel.tradingName = nodeModel.tradingName?.Trim() ?? nodeModel.tradingName;
+                    clienteTotalModel.street = nodeModel.street?.Trim() ?? nodeModel.street;
                     clienteTotalModel.complement = nodeModel.complement?.Trim() ?? nodeModel.complement;
                     clienteTotalModel.state = nodeModel.state?.Trim() ?? nodeModel.state;
                     clienteTotalModel.city = nodeModel.city?.Trim() ?? nodeModel.city;
@@ -168,7 +212,7 @@ namespace SupremoWeb.Repository
                 clienteAddModel.email = clienteTotalModel.email;
                 clienteAddModel.website = clienteTotalModel.website;
 
-                clienteAddModel.postalCode = clienteTotalModel.postalCode?.Replace("-", "") ?? clienteTotalModel.postalCode; 
+                clienteAddModel.postalCode = clienteTotalModel.postalCode?.Replace("-", "") ?? clienteTotalModel.postalCode;
 
                 clienteAddModel.neighborhood = clienteTotalModel.neighborhood;
                 clienteAddModel.houseNumber = clienteTotalModel.houseNumber;
