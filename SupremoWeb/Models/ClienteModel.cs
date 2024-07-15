@@ -2,8 +2,8 @@
 {
     public class ClienteBaseModel
     {
-        public int? lobId { get; set; }
         public float? companyId { get; set; }
+        public float? lobId { get; set; }               
         public string? personType { get; set; }
         public string? companyName { get; set; }
         public string? tradingName { get; set; }
@@ -20,14 +20,16 @@
         public string? cellphone { get; set; }
         public string? email { get; set; }
         public string? website { get; set; }
+        public string? personStatus { get; set; }
 
-
-
+        //public DateTime createdAt { get; set; }
+        //public DateTime systemUpdatedDate { get; set; }
+        //public TimeOnly systemUpdatedTime { get; set; }           
     }
 
     public class ClienteAddModel : ClienteBaseModel
     {
-        
+
     }
 
     public class ClienteModel : ClienteBaseModel            //Para Update de clientes
@@ -39,6 +41,9 @@
     {
         public string? cpf { get; set; }
         public string? cnpj { get; set; }
+        public string? rg { get; set; }
+        public string? inscr { get; set; }
+
         public int? uid { get; set; }
     }
 }

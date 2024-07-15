@@ -18,7 +18,7 @@ namespace SupremoWeb.Controllers
 
         [HttpGet]
         [Route("Clientes")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()                    //Carrega página Cliente Index
         {
             CamposGerais camposGerais = new CamposGerais();
             IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListAllClientes();
@@ -32,50 +32,53 @@ namespace SupremoWeb.Controllers
 
         [HttpPost]
         [Route("FiltroCliente")]
-        public async Task<IActionResult> ListFiltroClientes(ClienteFiltroModel clienteFiltroModel)
+        public async Task<IActionResult> ListFiltroClientes(ClienteFiltroModel clienteFiltroModel)      //Filtro de Pesquisa
         {
             CamposGerais camposGerais = new CamposGerais();
 
-            if (clienteFiltroModel.companyName != null || clienteFiltroModel.tradingName != null)
-            {
+            //if (clienteFiltroModel.companyName != null || clienteFiltroModel.tradingName != null)
+            //{
                 IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListFiltroClientes(clienteFiltroModel);
 
                 ViewBag.Clientes = clienteModels;
                 ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
                 ViewBag.Atuacao = camposGerais.RetornaAtuacao();
-            }
-            else
-            {
-                TempData["Message"] = "Favor preencher um dos campos de pesquisa !!!";
-                TempData["MessageHeading"] = "AVISO";
+            //}
+            //else
+            //{
+            //    TempData["Message"] = "Favor preencher um dos campos de pesquisa !!!";
+            //    TempData["MessageHeading"] = "AVISO";
 
-                IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListAllClientes();
-                ViewBag.Clientes = clienteModels;
-                ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
-                ViewBag.Atuacao = camposGerais.RetornaAtuacao();
-            }
+            //    IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListAllClientes();
+            //    ViewBag.Clientes = clienteModels;
+            //    ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
+            //    ViewBag.Atuacao = camposGerais.RetornaAtuacao();
+            //}
             return View("Index");
         }
 
         [HttpGet]
         [Route("Clientes/IncluirCliente")]
-        public async Task<IActionResult> IncluirCliente()                   //Carregar Tela IncluirCliente Sem Cliente
+        public async Task<IActionResult> IncluirCliente()                   //Carrega Tela IncluirCliente Sem Cliente
         {
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             return View();
         }
 
         [HttpGet]
-        [Route("Clientes/AlterarCliente/{uid:int}")]                        //Carregar Tela IncluirCliente Com Cliente
+        [Route("Clientes/AlterarCliente/{uid:int}")]                        //Carrega Tela IncluirCliente Com Cliente
         public async Task<IActionResult> IncluirCliente(int uid)
         {
             CamposGerais camposGerais = new CamposGerais();
 
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
+
             ClienteTotalModel clienteTotalModel = await _telaClientesRepository.ListCliente(uid);
 
             return View("IncluirCliente", clienteTotalModel);
@@ -84,10 +87,12 @@ namespace SupremoWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Clientes/IncluirCliente")]
-        public async Task<IActionResult> IncluirCliente(ClienteTotalModel clienteTotalModel)        //Incluir Cliente Novo
+        public async Task<IActionResult> IncluirCliente(ClienteTotalModel clienteTotalModel)        //Inclui Cliente Novo
         {
             if (ModelState.IsValid)
             {
+                clienteTotalModel.companyId = 1;    //Implementado posteriormente
+
                 MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(clienteTotalModel);
                 TempData["Message"] = mensagemModel.Message;
                 TempData["MessageHeading"] = mensagemModel.MessageHeading;
@@ -101,6 +106,7 @@ namespace SupremoWeb.Controllers
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             return View(clienteTotalModel);
         }
@@ -108,11 +114,12 @@ namespace SupremoWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Clientes/AlterarCliente/{uid:int}")]
-        public async Task<IActionResult> AlterarCliente(int uid, ClienteTotalModel clienteTotalModel)       // Alterar Cliente
+        public async Task<IActionResult> AlterarCliente(int uid, ClienteTotalModel clienteTotalModel)       // Altera Cliente
         {
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             if (ModelState.IsValid)
             {

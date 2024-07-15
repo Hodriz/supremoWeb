@@ -49,13 +49,71 @@ namespace SupremoWeb.Repository
             {
                 var filters = new Dictionary<string, object>();
 
+                if (!string.IsNullOrEmpty(clienteFiltroModel.cpfCnpj))
+                {
+                    clienteFiltroModel.cpfCnpj = clienteFiltroModel.cpfCnpj?.Replace(".", "") ?? clienteFiltroModel.cpfCnpj;
+                    clienteFiltroModel.cpfCnpj = clienteFiltroModel.cpfCnpj?.Replace("/", "") ?? clienteFiltroModel.cpfCnpj;
+                    clienteFiltroModel.cpfCnpj = clienteFiltroModel.cpfCnpj?.Replace("-", "") ?? clienteFiltroModel.cpfCnpj;
+
+                    filters.Add("taxPayerId", new { _iLike = $"%{clienteFiltroModel.cpfCnpj}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.rgInscricao))
+                {
+                    clienteFiltroModel.rgInscricao = clienteFiltroModel.rgInscricao?.Replace(".", "") ?? clienteFiltroModel.rgInscricao;
+                    clienteFiltroModel.rgInscricao = clienteFiltroModel.rgInscricao?.Replace("/", "") ?? clienteFiltroModel.rgInscricao;
+                    clienteFiltroModel.rgInscricao = clienteFiltroModel.rgInscricao?.Replace("-", "") ?? clienteFiltroModel.rgInscricao;
+
+                    filters.Add("identificationCard", new { _iLike = $"%{clienteFiltroModel.rgInscricao}%" });
+                }
+
+                if (clienteFiltroModel.codigo != null)
+                {
+                    filters.Add("id", new { _eq = clienteFiltroModel.codigo });
+                }
+
+                if (clienteFiltroModel.empresa != null)
+                {
+                    filters.Add("companyId", new { _eq = clienteFiltroModel.empresa });
+                }
+                else
+                {
+                    filters.Add("companyId", new { _gt = 0 });
+                }
+
                 if (!string.IsNullOrEmpty(clienteFiltroModel.companyName))
                 {
                     filters.Add("companyName", new { _iLike = $"%{clienteFiltroModel.companyName}%" });
                 }
+
                 if (!string.IsNullOrEmpty(clienteFiltroModel.tradingName))
                 {
                     filters.Add("tradingName", new { _iLike = $"%{clienteFiltroModel.tradingName}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.endereco))
+                {
+                    filters.Add("street", new { _iLike = $"%{clienteFiltroModel.endereco}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.bairro))
+                {
+                    filters.Add("neighborhood", new { _iLike = $"%{clienteFiltroModel.bairro}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.cidade))
+                {
+                    filters.Add("city", new { _iLike = $"%{clienteFiltroModel.cidade}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.uf))
+                {
+                    filters.Add("state", new { _iLike = $"%{clienteFiltroModel.uf}%" });
+                }
+
+                if (!string.IsNullOrEmpty(clienteFiltroModel.telefone))
+                {
+                    filters.Add("phone", new { _iLike = $"%{clienteFiltroModel.telefone}%" });
                 }
 
                 var variables = new { filter = filters };
@@ -121,6 +179,7 @@ namespace SupremoWeb.Repository
                                     website
                                     lobId
                                     personType
+                                    personStatus
                                 }
                             }
                         }
@@ -159,7 +218,6 @@ namespace SupremoWeb.Repository
                     clienteTotalModel.personType = nodeModel.personType;
                     clienteTotalModel.companyId = Convert.ToInt32(nodeModel.companyId);
                     clienteTotalModel.postalCode = nodeModel.postalCode?.Trim() ?? nodeModel.postalCode;
-                    clienteTotalModel.identificationCard = nodeModel.identificationCard?.Trim() ?? nodeModel.identificationCard;
                     clienteTotalModel.phone = nodeModel.phone?.Trim() ?? nodeModel.phone;
                     clienteTotalModel.cellphone = nodeModel.cellphone?.Trim() ?? nodeModel.cellphone;
                     clienteTotalModel.companyName = nodeModel.companyName?.Trim() ?? nodeModel.companyName;
@@ -173,14 +231,17 @@ namespace SupremoWeb.Repository
                     clienteTotalModel.houseNumber = Convert.ToInt32(nodeModel.houseNumber);
                     clienteTotalModel.email = nodeModel.email?.Trim() ?? nodeModel.email;
                     clienteTotalModel.website = nodeModel.website?.Trim() ?? nodeModel.website;
+                    clienteTotalModel.personStatus = nodeModel.personStatus?.Trim() ?? nodeModel.personStatus;
 
                     if (clienteTotalModel.personType == "LEGAL_ENTITY")
                     {
                         clienteTotalModel.cnpj = nodeModel.taxPayerId?.Trim() ?? nodeModel.taxPayerId;
+                        clienteTotalModel.inscr = nodeModel.identificationCard?.Trim() ?? nodeModel.identificationCard;
                     }
                     else
                     {
                         clienteTotalModel.cpf = nodeModel.taxPayerId?.Trim() ?? nodeModel.taxPayerId;
+                        clienteTotalModel.rg = nodeModel.identificationCard?.Trim() ?? nodeModel.identificationCard;
                     }
                 }
 
@@ -200,8 +261,8 @@ namespace SupremoWeb.Repository
                 //Prepara classe para envio
                 ClienteAddModel clienteAddModel = new ClienteAddModel();
 
-                clienteAddModel.lobId = 0;
-                clienteAddModel.companyId = 0;
+                clienteAddModel.companyId = 1;                      //Alterar Futuramente
+                clienteAddModel.lobId = clienteTotalModel.lobId;
                 clienteAddModel.personType = clienteTotalModel.personType;
                 clienteAddModel.companyName = clienteTotalModel.companyName;
                 clienteAddModel.tradingName = clienteTotalModel.tradingName;
@@ -216,7 +277,6 @@ namespace SupremoWeb.Repository
 
                 clienteAddModel.neighborhood = clienteTotalModel.neighborhood;
                 clienteAddModel.houseNumber = clienteTotalModel.houseNumber;
-                clienteAddModel.identificationCard = clienteTotalModel.identificationCard;
 
                 clienteAddModel.phone = clienteTotalModel.phone?.Replace("(", "") ?? clienteTotalModel.phone;
                 clienteAddModel.phone = clienteAddModel.phone?.Replace(")", "") ?? clienteAddModel.phone;
@@ -231,11 +291,15 @@ namespace SupremoWeb.Repository
                     clienteAddModel.taxPayerId = clienteTotalModel.cnpj?.Replace(".", "") ?? clienteTotalModel.cnpj;
                     clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("/", "") ?? clienteAddModel.taxPayerId;
                     clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("-", "") ?? clienteAddModel.taxPayerId;
+
+                    clienteAddModel.identificationCard = clienteTotalModel.inscr;
                 }
                 else
                 {
                     clienteAddModel.taxPayerId = clienteTotalModel.cpf?.Replace(".", "") ?? clienteTotalModel.cpf;
                     clienteAddModel.taxPayerId = clienteAddModel.taxPayerId?.Replace("-", "") ?? clienteAddModel.taxPayerId;
+
+                    clienteAddModel.identificationCard = clienteTotalModel.rg;
                 }
 
                 var client = new HttpClient();
@@ -262,6 +326,7 @@ namespace SupremoWeb.Repository
                         lobId
                         companyId
                         personType
+                        personStatus
                     }
                 }";
 
@@ -306,9 +371,9 @@ namespace SupremoWeb.Repository
                 //Prepara classe para envio
                 ClienteModel clienteModel = new ClienteModel();
 
-                clienteModel.uid = clienteTotalModel.uid;   //Obrigatório na alteração
-                clienteModel.lobId = 0;
-                clienteModel.companyId = 0;
+                clienteModel.companyId = 1;                      //Alterar Futuramente
+                clienteModel.uid = clienteTotalModel.uid;       //Obrigatório na alteração
+                clienteModel.lobId = clienteTotalModel.lobId;
                 clienteModel.personType = clienteTotalModel.personType;
                 clienteModel.companyName = clienteTotalModel.companyName;
                 clienteModel.tradingName = clienteTotalModel.tradingName;
@@ -323,7 +388,6 @@ namespace SupremoWeb.Repository
 
                 clienteModel.neighborhood = clienteTotalModel.neighborhood;
                 clienteModel.houseNumber = clienteTotalModel.houseNumber;
-                clienteModel.identificationCard = clienteTotalModel.identificationCard;
 
                 clienteModel.phone = clienteTotalModel.phone?.Replace("(", "") ?? clienteTotalModel.phone;
                 clienteModel.phone = clienteModel.phone?.Replace(")", "") ?? clienteModel.phone;
@@ -338,11 +402,15 @@ namespace SupremoWeb.Repository
                     clienteModel.taxPayerId = clienteTotalModel.cnpj?.Replace(".", "") ?? clienteTotalModel.cnpj;
                     clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("/", "") ?? clienteModel.taxPayerId;
                     clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("-", "") ?? clienteModel.taxPayerId;
+
+                    clienteModel.identificationCard = clienteTotalModel.inscr;
                 }
                 else
                 {
                     clienteModel.taxPayerId = clienteTotalModel.cpf?.Replace(".", "") ?? clienteTotalModel.cpf;
                     clienteModel.taxPayerId = clienteModel.taxPayerId?.Replace("-", "") ?? clienteModel.taxPayerId;
+
+                    clienteModel.identificationCard = clienteTotalModel.rg;
                 }
 
                 var client = new HttpClient();
@@ -370,6 +438,7 @@ namespace SupremoWeb.Repository
                         lobId
                         companyId
                         personType
+                        personStatus
                     }
                 }";
 

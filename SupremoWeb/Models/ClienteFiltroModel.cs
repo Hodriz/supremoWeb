@@ -2,8 +2,8 @@
 {
     public class ClienteFiltroModel
     {
-        public string? empresa { get; set; }
-        public string? codigo { get; set; }
+        public int? empresa { get; set; }
+        public int? codigo { get; set; }
         public string? companyName { get; set; }
         public string? tradingName { get; set; }
         public string? cpfCnpj { get; set; }

@@ -119,48 +119,48 @@
                 <div class="row col-12">
                     <div class="col-1">
                         <label class="label small" asp-for="empresa">Empresa</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="empresa" name="empresa" required maxlength="10">
+                        <input type="text" class="form-control form-control-sm input" asp-for="empresa" name="empresa" maxlength="10">
                     </div>
                     <div class="col-1">
                         <label class="label small" asp-for="codigo">Código</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="codigo" name="codigo" required maxlength="10">
+                        <input type="text" class="form-control form-control-sm input" asp-for="codigo" name="codigo" maxlength="10">
                     </div>
 
                     <div class="col-3">
                         <label class="label small" asp-for="companyName">Razão</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" required maxlength="50">
+                        <input type="text" class="form-control form-control-sm input" asp-for="companyName" name="companyName" maxlength="50">
                     </div>
                     <div class="col-3">
                         <label class="label small" asp-for="tradingName">Fantasia</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" required maxlength="40">
+                        <input type="text" class="form-control form-control-sm input" asp-for="tradingName" name="tradingName" maxlength="40">
                     </div>
                     <div class="col-2">
                         <label class="label small" asp-for="cpfCnpj">CPF/CNPJ</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="cpfCnpj" name="cpfCnpj" required maxlength="20">
+                        <input type="text" class="form-control form-control-sm input" asp-for="cpfCnpj" name="cpfCnpj" maxlength="20">
                     </div>
                     <div class="col-2">
                         <label class="label small" asp-for="rgInscricao">RG/Inscr. Estadual</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="rgInscricao" name="rgInscricao" required maxlength="20">
+                        <input type="text" class="form-control form-control-sm input" asp-for="rgInscricao" name="rgInscricao" maxlength="20">
                     </div>
                 </div>
 
                 <div class="row col-12">
                     <div class="col-4">
                         <label class="label small" asp-for="endereco">Endereço</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="endereco" name="endereco" required maxlength="10">
+                        <input type="text" class="form-control form-control-sm input" asp-for="endereco" name="endereco" disabled maxlength="10">
                     </div>
                     <div class="col-4">
                         <label class="label small" asp-for="bairro">Bairro</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="bairro" name="bairro" required maxlength="10">
+                        <input type="text" class="form-control form-control-sm input" asp-for="bairro" name="bairro" disabled maxlength="10">
                     </div>
 
                     <div class="col-2">
                         <label class="label small" asp-for="cidade">Cidade</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="cidade" name="cidade" required maxlength="50">
+                        <input type="text" class="form-control form-control-sm input" asp-for="cidade" name="cidade" disabled maxlength="50">
                     </div>
                     <div class="col-2">
                         <label class="label small" asp-for="uf">UF</label>
-                        <select asp-for="uf" class="form-select form-select-sm">
+                        <select asp-for="uf" class="form-select form-select-sm" disabled>
                             <option value="">Escolha...</option>
                             @foreach (var estado in ViewBag.EstadosBrasileiros as List<SelectListItem>)
                             {
@@ -173,15 +173,15 @@
                 <div class="row col-12">
                     <div class="col-3">
                         <label class="label small" asp-for="vendedor">Vendedor</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="vendedor" name="vendedor" required maxlength="20">
+                        <input type="text" class="form-control form-control-sm input" asp-for="vendedor" name="vendedor" disabled maxlength="20">
                     </div>
                     <div class="col-3">
                         <label class="label small" asp-for="telefone">Telefone</label>
-                        <input type="text" class="form-control form-control-sm input" asp-for="telefone" name="telefone" required maxlength="20">
+                        <input type="text" class="form-control form-control-sm input" asp-for="telefone" name="telefone" maxlength="20">
                     </div>
                     <div class="col-3">
                         <label class="label small" asp-for="atuacao">Atuação</label>
-                        <select asp-for="atuacao" class="form-select form-select-sm">
+                        <select asp-for="atuacao" class="form-select form-select-sm" disabled>
                             <option value="">Escolha...</option>
                             @foreach (var atuacao in ViewBag.Atuacao as List<SelectListItem>)
                             {
