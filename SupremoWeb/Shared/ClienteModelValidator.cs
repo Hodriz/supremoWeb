@@ -36,13 +36,18 @@ namespace SupremoWeb.Shared
                 .Must(IsValidCPF).WithMessage("CPF inválido")
                 .When(x => x.personType == "PF");
 
+            RuleFor(x => x.rg)
+                .NotEmpty().WithMessage("Campo Obrigatório")
+                .When(x => x.personType == "PF");
+
             RuleFor(x => x.cnpj)
                 .NotEmpty().WithMessage("Campo Obrigatório")
                 .Must(IsValidCNPJ).WithMessage("CNPJ inválido")
                 .When(x => x.personType == "PJ");
 
-            RuleFor(x => x.identificationCard)
-                .NotEmpty().WithMessage("Campo Obrigatório");
+            RuleFor(x => x.inscr)
+                .NotEmpty().WithMessage("Campo Obrigatório")
+                .When(x => x.personType == "PJ");
 
             RuleFor(x => x.email)
                 .EmailAddress().WithMessage("Email inválido");

@@ -6,7 +6,7 @@ namespace SupremoWeb.Shared
     {
         public List<SelectListItem> RetornaEstadosBrasileiro()
         {
-            var estadosBrasileiros = new List<SelectListItem>
+            var ret = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Acre", Value = "AC" },
                 new SelectListItem { Text = "Alagoas", Value = "AL" },
@@ -37,30 +37,60 @@ namespace SupremoWeb.Shared
                 new SelectListItem { Text = "Tocantins", Value = "TO" }
             };
 
-            return estadosBrasileiros;
+            return ret;
         }
 
         public List<SelectListItem> RetornaAtuacao()
         {
-            var atuacao = new List<SelectListItem>
+            var ret = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Revendedor", Value = "revendedor" },
-                new SelectListItem { Text = "Consumidor", Value = "consumidor" },
+                new SelectListItem { Text = "Consumidor", Value = "consumidor" }
             };
 
-            return atuacao;
+            return ret;
         }
 
         public List<SelectListItem> RetornaTipoPessoa()
         {
-            var tipoPessoa = new List<SelectListItem>
+            var ret = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Pessoa Física", Value = "INDIVIDUAL" },
                 new SelectListItem { Text = "Pessoa Jurídica", Value = "LEGAL_ENTITY" },
-                new SelectListItem { Text = "Produtor Rural", Value = "RURAL_PRODUCER" },
+                new SelectListItem { Text = "Produtor Rural", Value = "RURAL_PRODUCER" }
             };
 
-            return tipoPessoa;
+            return ret;
+        }
+
+        public List<SelectListItem> RetornaPersonStatus()
+        {
+            var ret = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Liberado para Venda", Value = "APPROVED" },
+                new SelectListItem { Text = "Bloquear Crédito Excedido", Value = "BLOCK_CREDIT_BEYOND_LIMIT" },
+                new SelectListItem { Text = "Bloqueado para Venda", Value = "BLOCKED_SALES" },
+                new SelectListItem { Text = "Inativo", Value = "INACTIVE" },
+                new SelectListItem { Text = "Liberado venda abaixo do permitido", Value = "APPROVED_SALES_BELOW_PERMITTED" },
+                new SelectListItem { Text = "Baixado", Value = "COMPANY_CLOSED" },
+                new SelectListItem { Text = "Aguardando Análise", Value = "IN_REVIEW" },
+                new SelectListItem { Text = "Solicitar Documentação", Value = "DOCUMENTS_REQUIRED" },
+                new SelectListItem { Text = "Atualizar Cadastro", Value = "UPDATE_INFORMATIONS_REQUIRED" }
+            };
+
+            return ret;
+
+        }
+
+        public List<SelectListItem> RetornaPais()
+        {
+            var ret = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Brasil", Value = "BR" },
+                new SelectListItem { Text = "USA", Value = "US" }
+            };
+
+            return ret;
         }
     }
 }

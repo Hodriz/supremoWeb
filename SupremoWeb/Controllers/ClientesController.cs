@@ -18,7 +18,7 @@ namespace SupremoWeb.Controllers
 
         [HttpGet]
         [Route("Clientes")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()                    //Carrega página Cliente Index
         {
             CamposGerais camposGerais = new CamposGerais();
             IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListAllClientes();
@@ -30,25 +30,55 @@ namespace SupremoWeb.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Route("FiltroCliente")]
+        public async Task<IActionResult> ListFiltroClientes(ClienteFiltroModel clienteFiltroModel)      //Filtro de Pesquisa
+        {
+            CamposGerais camposGerais = new CamposGerais();
+
+            //if (clienteFiltroModel.companyName != null || clienteFiltroModel.tradingName != null)
+            //{
+                IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListFiltroClientes(clienteFiltroModel);
+
+                ViewBag.Clientes = clienteModels;
+                ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
+                ViewBag.Atuacao = camposGerais.RetornaAtuacao();
+            //}
+            //else
+            //{
+            //    TempData["Message"] = "Favor preencher um dos campos de pesquisa !!!";
+            //    TempData["MessageHeading"] = "AVISO";
+
+            //    IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListAllClientes();
+            //    ViewBag.Clientes = clienteModels;
+            //    ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
+            //    ViewBag.Atuacao = camposGerais.RetornaAtuacao();
+            //}
+            return View("Index");
+        }
+
         [HttpGet]
         [Route("Clientes/IncluirCliente")]
-        public async Task<IActionResult> IncluirCliente()                   //Carregar Tela IncluirCliente Sem Cliente
+        public async Task<IActionResult> IncluirCliente()                   //Carrega Tela IncluirCliente Sem Cliente
         {
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             return View();
         }
 
         [HttpGet]
-        [Route("Clientes/AlterarCliente/{uid:int}")]                        //Carregar Tela IncluirCliente Com Cliente
+        [Route("Clientes/AlterarCliente/{uid:int}")]                        //Carrega Tela IncluirCliente Com Cliente
         public async Task<IActionResult> IncluirCliente(int uid)
         {
             CamposGerais camposGerais = new CamposGerais();
 
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
+
             ClienteTotalModel clienteTotalModel = await _telaClientesRepository.ListCliente(uid);
 
             return View("IncluirCliente", clienteTotalModel);
@@ -56,12 +86,12 @@ namespace SupremoWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Clientes/IncluirCliente")]                                  
-        public async Task<IActionResult> IncluirCliente(ClienteTotalModel clienteTotalModel)        //Incluir Cliente Novo
+        [Route("Clientes/IncluirCliente")]
+        public async Task<IActionResult> IncluirCliente(ClienteTotalModel clienteTotalModel)        //Inclui Cliente Novo
         {
             if (ModelState.IsValid)
             {
-                //ClienteAddModel clienteAddModel = await RetornaClienteAdd(cliente);
+                clienteTotalModel.companyId = 1;    //Implementado posteriormente
 
                 MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(clienteTotalModel);
                 TempData["Message"] = mensagemModel.Message;
@@ -76,23 +106,23 @@ namespace SupremoWeb.Controllers
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             return View(clienteTotalModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Clientes/AlterarCliente/{uid:int}")] 
-        public async Task<IActionResult> AlterarCliente(int uid, ClienteTotalModel clienteTotalModel)       // Alterar Cliente
+        [Route("Clientes/AlterarCliente/{uid:int}")]
+        public async Task<IActionResult> AlterarCliente(int uid, ClienteTotalModel clienteTotalModel)       // Altera Cliente
         {
             CamposGerais camposGerais = new CamposGerais();
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
+            ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
 
             if (ModelState.IsValid)
             {
-                //ClienteModel clienteModel = await RetornaClienteUpdate(clienteTotalModel);
-
                 MensagemModel mensagemModel = await _telaClientesRepository.UpdateCliente(clienteTotalModel);
                 TempData["Message"] = mensagemModel.Message;
                 TempData["MessageHeading"] = mensagemModel.MessageHeading;
@@ -106,76 +136,6 @@ namespace SupremoWeb.Controllers
             return View("IncluirCliente", clienteTotalModel);
         }
 
-
-        //private async Task<ClienteAddModel> RetornaClienteAdd(ClienteTotalModel clienteTotalModel)
-        //{
-        //    ClienteAddModel clienteAddModel = new ClienteAddModel();
-
-        //    clienteAddModel.lobId = clienteTotalModel.lobId;
-        //    clienteAddModel.companyId = clienteTotalModel.companyId;
-        //    clienteAddModel.personType = clienteTotalModel.personType;
-        //    clienteAddModel.companyName = clienteTotalModel.companyName;
-        //    clienteAddModel.tradingName = clienteTotalModel.tradingName;
-        //    clienteAddModel.street = clienteTotalModel.street;
-        //    clienteAddModel.complement = clienteTotalModel.complement;
-        //    clienteAddModel.state = clienteTotalModel.state;
-        //    clienteAddModel.city = clienteTotalModel.city;
-        //    clienteAddModel.postalCode = clienteTotalModel.postalCode;
-        //    clienteAddModel.neighborhood = clienteTotalModel.neighborhood;
-        //    clienteAddModel.houseNumber = clienteTotalModel.houseNumber;
-        //    clienteAddModel.identificationCard = clienteTotalModel.identificationCard;
-        //    clienteAddModel.phone = clienteTotalModel.phone;
-        //    clienteAddModel.cellphone = clienteTotalModel.cellphone;
-        //    clienteAddModel.email = clienteTotalModel.email;
-        //    clienteAddModel.website = clienteTotalModel.website;
-
-        //    if (clienteTotalModel.personType == "LEGAL_ENTITY")
-        //    {
-        //        clienteAddModel.taxPayerId = clienteTotalModel.cnpj;
-        //    }
-        //    else
-        //    {
-        //        clienteAddModel.taxPayerId = clienteTotalModel.cpf;
-        //    }
-
-
-        //    return clienteAddModel;
-        //}
-
-        //private async Task<ClienteModel> RetornaClienteUpdate(ClienteTotalModel clienteTotalModel)
-        //{
-        //    ClienteModel clienteModel = new ClienteModel();
-
-        //    clienteModel.lobId = clienteTotalModel.lobId;
-        //    clienteModel.companyId = clienteTotalModel.companyId;
-        //    clienteModel.companyName = clienteTotalModel.companyName;
-        //    clienteModel.tradingName = clienteTotalModel.tradingName;
-        //    clienteModel.street = clienteTotalModel.street;
-        //    clienteModel.complement = clienteTotalModel.complement;
-        //    clienteModel.state = clienteTotalModel.state;
-        //    clienteModel.city = clienteTotalModel.city;
-        //    clienteModel.postalCode = clienteTotalModel.postalCode;
-        //    clienteModel.neighborhood = clienteTotalModel.neighborhood;
-        //    clienteModel.houseNumber = clienteTotalModel.houseNumber;
-        //    clienteModel.identificationCard = clienteTotalModel.identificationCard;
-        //    clienteModel.phone = clienteTotalModel.phone;
-        //    clienteModel.cellphone = clienteTotalModel.cellphone;
-        //    clienteModel.email = clienteTotalModel.email;
-        //    clienteModel.website = clienteTotalModel.website;
-
-        //    clienteModel.uid = clienteTotalModel.uid;
-
-        //    if (clienteTotalModel.personType == "LEGAL_ENTITY")
-        //    {
-        //        clienteModel.taxPayerId = clienteTotalModel.cnpj;
-        //    }
-        //    else
-        //    {
-        //        clienteModel.taxPayerId = clienteTotalModel.cpf;
-        //    }
-
-        //    return clienteModel;
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
