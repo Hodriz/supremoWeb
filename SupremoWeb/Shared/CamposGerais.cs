@@ -7,7 +7,7 @@ namespace SupremoWeb.Shared
         public List<SelectListItem> RetornaEstadosBrasileiro()
         {
             var ret = new List<SelectListItem>
-            {
+            { 
                 new SelectListItem { Text = "Acre", Value = "AC" },
                 new SelectListItem { Text = "Alagoas", Value = "AL" },
                 new SelectListItem { Text = "Amapá", Value = "AP" },
