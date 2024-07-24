@@ -6,7 +6,8 @@
 }
 /*DEFINIÇÕES DE ESTILO NO CORPO DO DOCUMENTO*/
 body {
-  overflow-x: hidden;
+    overflow-x: hidden;
+    flex-direction;
 }
 /*ESTILOS DA BARRA DE NAVEGAÇÃO*/
 .logo {
@@ -445,12 +446,13 @@ body {
 /*DEFINIÇÕES DE ESTILO DO RODAPÉ*/
 
 footer {
-  height: 70px;
-  width: 100%;
-  padding: 10px 20px;
-  font-family: "Amiko", sans-serif;
-  font-size: 12px;
-  color: white;
+    height: 70px;
+    width: 100%;
+    padding: 10px 20px;
+    font-family: "Amiko", sans-serif;
+    font-size: 12px;
+    color: white;
+    margin: inherit;
 }
 
 footer p {
