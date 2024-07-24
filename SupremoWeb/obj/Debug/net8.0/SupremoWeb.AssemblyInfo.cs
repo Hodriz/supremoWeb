@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SupremoWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+187c593e775938a1731229f86a9b3e1ad833a21e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4b5a739dcefbf3067346de30e3b2ac6bbc8da78")]
 [assembly: System.Reflection.AssemblyProductAttribute("SupremoWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SupremoWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
