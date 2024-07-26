@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using SupremoWeb.Models;
+using SupremoWeb.Shared;
 using System.Diagnostics;
 
 namespace SupremoWeb.Controllers
 {
+    [ValidateToken]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
