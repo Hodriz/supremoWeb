@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace SupremoWeb.Controllers
 {
+    [ValidateToken]
     public class ClientesController : Controller
     {
         private ITelaClientesRepository _telaClientesRepository;
@@ -28,6 +29,7 @@ namespace SupremoWeb.Controllers
             ViewBag.Atuacao = camposGerais.RetornaAtuacao();
 
             return View();
+
         }
 
         [HttpPost]
@@ -38,11 +40,11 @@ namespace SupremoWeb.Controllers
 
             //if (clienteFiltroModel.companyName != null || clienteFiltroModel.tradingName != null)
             //{
-                IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListFiltroClientes(clienteFiltroModel);
+            IEnumerable<NodeModel> clienteModels = await _telaClientesRepository.ListFiltroClientes(clienteFiltroModel);
 
-                ViewBag.Clientes = clienteModels;
-                ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
-                ViewBag.Atuacao = camposGerais.RetornaAtuacao();
+            ViewBag.Clientes = clienteModels;
+            ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
+            ViewBag.Atuacao = camposGerais.RetornaAtuacao();
             //}
             //else
             //{
