@@ -141,9 +141,6 @@ namespace SupremoWeb.Repository
             }
         }
 
-
-
-
         public async Task<ClienteTotalModel> ListCliente(int uid)
         {
             try
@@ -152,53 +149,12 @@ namespace SupremoWeb.Repository
                 var request = new HttpRequestMessage(HttpMethod.Post, _configuration["Parametros:url"]);
                 request.Headers.Add("Authorization", "Bearer " + RetornoAutenticacaoModel.token);
 
-                var queryObject = new
-                {
-                    query = @"query Customers($filter: CustomerFilter) {
-                        customers(filter: $filter) {
-                            edges {
-                                node {
-                                    uid
-                                    companyId
-                                    personType
-                                    id
-                                    companyName
-                                    tradingName
-                                    taxPayerId
-                                    identificationCard
-                                    phone
-                                    cellphone
-                                    email
-                                    neighborhood
-                                    street
-                                    houseNumber
-                                    complement
-                                    city
-                                    state
-                                    postalCode
-                                    website
-                                    lobId
-                                    personType
-                                    personStatus
-                                }
-                            }
-                        }
-                    }",
-                    variables = new
-                    {
-                        filter = new
-                        {
-                            uid = new
-                            {
-                                _eq = uid
-                            }
-                        }
-                    }
-                };
+                var content = new StringContent(
+                    "{\"query\":\"query Node($filter: CustomerFilter) {\\r\\n  customers(filter: $filter) {\\r\\n    edges {\\r\\n      node {\\r\\n        uid\\r\\n        companyId\\r\\n        id\\r\\n        personType\\r\\n        personStatus\\r\\n        companyName\\r\\n        tradingName\\r\\n        taxPayerId\\r\\n        identificationCard\\r\\n        phone\\r\\n        cellphone\\r\\n        email\\r\\n        neighborhood\\r\\n        street\\r\\n        houseNumber\\r\\n        complement\\r\\n        city\\r\\n        state\\r\\n        postalCode\\r\\n        website\\r\\n        lobId\\r\\n        addresses {\\r\\n          type\\r\\n          street\\r\\n          houseNumber\\r\\n          complement\\r\\n          neighborhood\\r\\n          city\\r\\n          state\\r\\n          postalCode\\r\\n        }\\r\\n      }\\r\\n    }\\r\\n  }\\r\\n}\",\"variables\":{\"filter\":{\"uid\":{\"_eq\":" + uid + "},\"companyId\":{\"_gt\":0},\"id\":{\"_gt\":0}}}}",
+                    Encoding.UTF8,
+                    "application/json"
+                );
 
-                var jsonQuery = JsonConvert.SerializeObject(queryObject);
-
-                var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
                 request.Content = content;
 
                 var response = await client.SendAsync(request);
@@ -243,6 +199,23 @@ namespace SupremoWeb.Repository
                         clienteTotalModel.cpf = nodeModel.taxPayerId?.Trim() ?? nodeModel.taxPayerId;
                         clienteTotalModel.rg = nodeModel.identificationCard?.Trim() ?? nodeModel.identificationCard;
                     }
+
+                    //var billingAddress = nodeModel.addresses.FirstOrDefault(a => a.type == "BILLING");
+                    //if (billingAddress != null)
+                    //{
+                    //    clienteTotalModel.BillingAddressModel = new AddressModel
+                    //    {
+                    //        type = billingAddress.type,
+                    //        street = billingAddress.street?.Trim(),
+                    //        houseNumber = billingAddress.houseNumber,
+                    //        complement = billingAddress.complement?.Trim(),
+                    //        neighborhood = billingAddress.neighborhood?.Trim(),
+                    //        city = billingAddress.city?.Trim(),
+                    //        state = billingAddress.state?.Trim(),
+                    //        postalCode = billingAddress.postalCode?.Trim()
+                    //    };
+                    //}
+
                 }
 
                 return clienteTotalModel;
@@ -301,6 +274,18 @@ namespace SupremoWeb.Repository
 
                     clienteAddModel.identificationCard = clienteTotalModel.rg;
                 }
+
+                clienteAddModel.addresses = new AddressModel
+                {
+                    type = "BILLING",
+                    street = clienteTotalModel.street,
+                    houseNumber = clienteTotalModel.houseNumber,
+                    complement = clienteTotalModel.complement,
+                    neighborhood = clienteTotalModel.neighborhood,
+                    city = clienteTotalModel.city,
+                    state = clienteTotalModel.state,
+                    postalCode = clienteTotalModel.postalCode?.Replace("-", "")
+                };
 
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, _configuration["Parametros:url"]);

@@ -21,6 +21,8 @@
         public string? email { get; set; }
         public string? website { get; set; }
         public string? personStatus { get; set; }
+        public AddressModel? addresses { get; set; }
+        //public AddressModel[]? DeliveryAddressModel { get; set; }
 
         //public DateTime createdAt { get; set; }
         //public DateTime systemUpdatedDate { get; set; }
