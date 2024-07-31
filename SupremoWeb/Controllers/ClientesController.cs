@@ -91,10 +91,12 @@ namespace SupremoWeb.Controllers
         [Route("Clientes/IncluirCliente")]
         public async Task<IActionResult> IncluirCliente(ClienteTotalModel clienteTotalModel)        //Inclui Cliente Novo
         {
+            clienteTotalModel.companyId = 1;    //Implementado posteriormente
+            clienteTotalModel.lobId = 1;        //Retirar
+            //clienteTotalModel.BillingAddressModel.type = "BILLING";
+
             if (ModelState.IsValid)
             {
-                clienteTotalModel.companyId = 1;    //Implementado posteriormente
-
                 MensagemModel mensagemModel = await _telaClientesRepository.AddCliente(clienteTotalModel);
                 TempData["Message"] = mensagemModel.Message;
                 TempData["MessageHeading"] = mensagemModel.MessageHeading;
@@ -122,6 +124,8 @@ namespace SupremoWeb.Controllers
             ViewBag.EstadosBrasileiros = camposGerais.RetornaEstadosBrasileiro();
             ViewBag.TipoPessoa = camposGerais.RetornaTipoPessoa();
             ViewBag.PersonStatus = camposGerais.RetornaPersonStatus();
+
+            //clienteTotalModel.BillingAddressModel.type = "BILLING";
 
             if (ModelState.IsValid)
             {
